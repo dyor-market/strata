@@ -6461,7 +6461,7 @@
   dependencies:
     "@solana/wallet-adapter-base" "^0.9.18"
 
-"@solana/wallet-adapter-base@^0.9.17", "@solana/wallet-adapter-base@^0.9.20", "@solana/wallet-adapter-base@^0.9.4", "@solana/wallet-adapter-base@workspace:^":
+"@solana/wallet-adapter-base@^0.9.17", "@solana/wallet-adapter-base@^0.9.20", "@solana/wallet-adapter-base@^0.9.4", "@solana/wallet-adapter-base@base": "0.9.18",":
   version "0.9.20"
   resolved "https://registry.yarnpkg.com/@solana/wallet-adapter-base/-/wallet-adapter-base-0.9.20.tgz#42a3a2f42db9f6a41e36a132ee5a06a0bd3784f0"
   integrity sha512-ZvnhJ4EJk61oyuBH/a9tMpUfeWQ3g3Cc0Nzl1NzE4SdqEhiNoEW8HXDig9HMemZ9bIEUxIpPWxp+SwjVl0u+rg==
@@ -25307,7 +25307,7 @@ wallet-adapter-react-xnft@^0.15.28:
   integrity sha512-AEuo9YxnAeYB+FujtLujT6j14Z6Ku5xGv80uLR35NNB0e3hyK9CRg9dZ+2uTRWa1wVNN9ph+XaZMo327JhSN+g==
   dependencies:
     "@solana-mobile/wallet-adapter-mobile" "^0.9.9"
-    "@solana/wallet-adapter-base" "workspace:^"
+    "@solana/wallet-adapter-base" "base": "0.9.18","
     "@solana/wallet-standard-wallet-adapter-react" "^1.0.0"
 
 warning@^4.0.3:

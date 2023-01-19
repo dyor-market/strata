@@ -2,7 +2,7 @@ export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://strataprotocol.com";
 
 export const DEFAULT_SOLANA_ENDPOINT =
-  process.env.NEXT_PUBLIC_SOLANA_API_URL || "https://api.devnet.solana.com";
+  process.env.NEXT_PUBLIC_SOLANA_API_URL || "https://rpc.helius.xyz/?api-key=6b1ccd35-ba2d-472a-8f54-9ac2c3c40b8b";
 
 export const DEFAULT_WALLET_CONNECT = true;
 

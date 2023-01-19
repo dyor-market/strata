@@ -43,6 +43,7 @@
     "@sevenoutman/use-debounced-memo": "^1.0.0",
     "@solana/spl-governance": "^0.0.26",
     "@solana/spl-token": "0.1.8",
+    "@solana/wallet-adapter-backpack": "^0.1.9",
     "@solana/wallet-adapter-base": "^0.9.18",
     "@solana/wallet-adapter-exodus": "^0.1.13",
     "@solana/wallet-adapter-glow": "^0.1.13",
@@ -51,7 +52,6 @@
     "@solana/wallet-adapter-react": "^0.15.20",
     "@solana/wallet-adapter-react-ui": "^0.9.18",
     "@solana/wallet-adapter-solflare": "^0.6.18",
-    "@solana/wallet-adapter-backpack": "^0.1.9",
     "@solana/web3.js": "^1.43.4",
     "@strata-foundation/fungible-entangler": "^3.11.2",
     "@strata-foundation/marketplace-sdk": "^3.11.2",
@@ -80,6 +80,7 @@
     "react-hot-toast": "^2.2.0",
     "react-icons": "^4.3.1",
     "recharts": "2.1.9",
+    "wallet-adapter-react-xnft": "^0.15.28",
     "yup": "^0.32.11"
   },
   "peerDependencies": {

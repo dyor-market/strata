@@ -2,7 +2,7 @@ import { Connection, PublicKey } from "@solana/web3.js";
 import { useEffect, useState } from "react";
 import { Order } from "@project-serum/serum/lib/market";
 import { Market } from "@project-serum/serum";
-import { useConnection } from "@solana/wallet-adapter-react";
+import { useConnection } from "wallet-adapter-react-xnft";
 
 const SERUM_PROGRAM_ID = new PublicKey(
   "9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin"

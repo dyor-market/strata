@@ -34,7 +34,6 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <Providers>
       <DefaultSeo {...SEO} />
-      <Header />
       {/* @ts-ignore */}
       <Component {...pageProps} />
       <BrowserView>
@@ -55,7 +54,6 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
           }}
         />
       </MobileView>
-      <Footer />
     </Providers>
   );
 };

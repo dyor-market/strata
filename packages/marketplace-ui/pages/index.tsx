@@ -12,7 +12,7 @@ const Home: NextPage = () => {
         <meta name="description" content="Marketplace powered by strata protocol" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
+    
       <main>
         <Container>
           <FixedPriceForm />

@@ -1,4 +1,4 @@
-import { useConnection } from "@solana/wallet-adapter-react";
+import { useConnection } from "wallet-adapter-react-xnft";
 import {
   ConfirmedSignatureInfo,
   Connection,

@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { mintMetadataServerSideProps } from "../../../src/utils/tokenMetadataServerProps";
 import { SITE_URL } from "../../../src/constants";
+import { Header } from "../../../src/components/Header";
 
 export const getServerSideProps: GetServerSideProps =
   mintMetadataServerSideProps;
@@ -44,11 +45,9 @@ export const SwapDisplay: NextPage = ({
         image={image}
         url={`${SITE_URL}/swap/${ id?.toString() }/`}
       />
-      <Box padding="54px" backgroundColor="black.500" />
+      <Box padding="37px" backgroundColor="black.500" />
       <Container mt="-72px" justifyContent="stretch" maxW="460px">
-        <Heading mb={2} color="white" fontSize="24px" fontWeight={600}>
-          Swap
-        </Heading>
+        
         <Box
           padding={4}
           zIndex={1}

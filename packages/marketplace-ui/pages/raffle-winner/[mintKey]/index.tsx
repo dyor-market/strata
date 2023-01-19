@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useConnection } from "@solana/wallet-adapter-react";
+import { useConnection } from "wallet-adapter-react-xnft";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import {
   Container,

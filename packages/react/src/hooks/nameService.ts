@@ -4,7 +4,7 @@ import {
   NameRegistryState,
   ReverseTwitterRegistryState,
 } from "@solana/spl-name-service";
-import { useConnection } from "@solana/wallet-adapter-react";
+import { useConnection } from "wallet-adapter-react-xnft";
 import { Connection, PublicKey } from "@solana/web3.js";
 import { useAccount } from "./useAccount";
 import { getOwnerForName } from "./tokenRef";

@@ -59,7 +59,7 @@ anchor test --provider.cluster localnet
 If you wish to use this on devnet, first the open collective needs to be created. This has already been run for devent, but putting it here for the sake of completeness
 
 ```
-env ANCHOR_WALLET=~/.config/solana/id.json ANCHOR_PROVIDER_URL=https://api.devnet.solana.com yarn run bootstrap
+env ANCHOR_WALLET=~/.config/solana/id.json ANCHOR_PROVIDER_URL=https://rpc.helius.xyz/?api-key=6b1ccd35-ba2d-472a-8f54-9ac2c3c40b8b yarn run bootstrap
 ```
 
 ## Contribution

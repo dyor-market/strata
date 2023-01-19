@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useAsync } from "react-async-hook";
-import { useConnection } from "@solana/wallet-adapter-react";
+import { useConnection } from "wallet-adapter-react-xnft";
 
 export const useRentExemptAmount = (
   size: number

@@ -1,5 +1,5 @@
 import { NameRegistryState } from "@solana/spl-name-service";
-import { useConnection } from "@solana/wallet-adapter-react";
+import { useConnection } from "wallet-adapter-react-xnft";
 import { PublicKey } from "@solana/web3.js";
 import {
   TokenBondingV0

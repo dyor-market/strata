@@ -374,7 +374,7 @@ describe("chat", () => {
 
         // devnet provider is required because lit protocol reads from devnet, not localhost
         const devnetConnection = new Connection(
-          "https://api.devnet.solana.com"
+          "https://rpc.helius.xyz/?api-key=6b1ccd35-ba2d-472a-8f54-9ac2c3c40b8b"
         );
         devnetProvider = new AnchorProvider(
           devnetConnection,

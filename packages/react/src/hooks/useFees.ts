@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useAsync } from "react-async-hook";
-import { useConnection } from "@solana/wallet-adapter-react";
+import { useConnection } from "wallet-adapter-react-xnft";
 import { getFeesPerSignature } from "@strata-foundation/spl-utils";
 
 export const useFees = (

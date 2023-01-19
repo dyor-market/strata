@@ -43,7 +43,7 @@ export function getClusterAndEndpoint(clusterOrEndpoint: string): {
       } else if (clusterOrEndpoint === "devnet") {
         return {
           cluster: "devnet",
-          endpoint: "https://api.devnet.solana.com/",
+          endpoint: "https://rpc.helius.xyz/?api-key=6b1ccd35-ba2d-472a-8f54-9ac2c3c40b8b/",
         };
       } else if (clusterOrEndpoint === "mainnet-beta") {
         return {

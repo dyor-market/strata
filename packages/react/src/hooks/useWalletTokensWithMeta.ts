@@ -1,4 +1,4 @@
-import { useConnection } from "@solana/wallet-adapter-react";
+import { useConnection } from "wallet-adapter-react-xnft";
 import { PublicKey } from "@solana/web3.js";
 import { ITokenWithMetaAndAccount } from "@strata-foundation/spl-token-collective";
 import { useAsync, UseAsyncReturn } from "react-async-hook";

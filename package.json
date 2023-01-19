@@ -47,7 +47,8 @@
     "test": "ts-mocha -p ./tsconfig.test.json -t 1000000 \"tests/**/*.ts\"",
     "prepare": "husky install",
     "clean": "lerna run clean",
-    "build": "lerna run --parallel prebuild && tsc --build",
+    "start": "cd packages/marketplace-ui && yarn start",
+    "build": "lerna run --parallel prebuild --scope @strata-foundation/marketplace-ui && lerna run --parallel build --scope @strata-foundation/marketplace-ui",
     "idl": "lerna run watch --scope @strata-foundation/cli",
     "watch": "lerna run --parallel prebuild && tsc --build --watch",
     "fmt": "prettier --write '{*,**/*}.{ts,tsx,js,jsx,json}'",
@@ -57,14 +58,17 @@
     "reinstall": "lerna nuke && lerna bootstrap --ignore-scripts"
   },
   "dependencies": {
-    "@solana/spl-name-service": "^0.1.3",
+    "@coral-xyz/common-public": "^0.2.0-latest.2078",
     "@solana/buffer-layout": "^4.0.0",
+    "@solana/spl-name-service": "^0.1.3",
     "@solana/spl-token": "0.1.8",
     "@solana/web3.js": "^1.43.4",
     "bn.js": "^5.2.0",
     "borsh": "^0.7.0",
     "husky": "^7.0.4",
     "lerna": "^4.0.0",
-    "quicktype-core": "^6.0.70"
+    "quicktype-core": "^6.0.70",
+    "react-native": "^0.71.0",
+    "wallet-adapter-react-xnft": "^0.15.28"
   }
 }

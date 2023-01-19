@@ -3,7 +3,7 @@ import {
   Spinner,
   StackDivider, Text, VStack
 } from "@chakra-ui/react";
-import { useConnection } from "@solana/wallet-adapter-react";
+import { useConnection } from "wallet-adapter-react-xnft";
 import { Connection, PublicKey } from "@solana/web3.js";
 import {
   Creator, OnCreatorClick, roundToDecimals, useMint, useTokenAccount

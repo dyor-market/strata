@@ -1,5 +1,5 @@
 {
-  "name": "@strata-foundation/react",
+  "name": "strata-foundation-react-xnft",
   "version": "3.11.2",
   "description": "React utils for strata foundation",
   "main": "./lib/cjs/index.js",
@@ -90,5 +90,9 @@
     "rollup-plugin-terser": "^7.0.2",
     "typescript": "^4.4.4"
   },
-  "gitHead": "ff670e6a6211209648c56dd69e5f5dfbda631b42"
+  "directories": {
+    "lib": "lib"
+  },
+  "author": "",
+  "license": "ISC"
 }

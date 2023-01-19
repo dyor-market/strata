@@ -1,4 +1,4 @@
-import { useConnection } from "@solana/wallet-adapter-react";
+import { useConnection } from "wallet-adapter-react-xnft";
 import { Commitment } from "@solana/web3.js";
 import { AccountFetchCache } from "@strata-foundation/spl-utils";
 import React, { createContext, FC, ReactNode, useEffect, useState } from "react";

@@ -2,7 +2,7 @@ import {
   Alert, Box, Progress, Text,
   VStack
 } from "@chakra-ui/react";
-import { useErrorHandler, useInterval } from "@strata-foundation/react";
+import { useErrorHandler, useInterval } from "strata-foundation-react-xnft";
 import React, { useEffect, useState } from "react";
 import { useAsync } from "react-async-hook";
 

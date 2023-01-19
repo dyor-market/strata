@@ -14,7 +14,7 @@ import {
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 
-import { useStrataSdks } from "@strata-foundation/react";
+import { useStrataSdks } from "strata-foundation-react-xnft";
 import { useChatSdk } from "../../contexts/chatSdk";
 import { useDelegateWallet } from "../../hooks/useDelegateWallet";
 import { ProgressStep } from "./ProgressStep";

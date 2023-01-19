@@ -2,7 +2,7 @@ import { PublicKey } from "@solana/web3.js";
 import {
   useCollectionOwnedAmount,
   useUserOwnedAmount,
-} from "@strata-foundation/react";
+} from "strata-foundation-react-xnft";
 import { useChatPermissionsFromChat } from "./useChatPermissionsFromChat";
 
 export const useChatOwnedAmounts = (

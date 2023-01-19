@@ -1,6 +1,6 @@
 import { PublicKey } from "@solana/web3.js";
 import { IChatPermissions } from "@strata-foundation/chat";
-import { useAccount, UseAccountState } from "@strata-foundation/react";
+import { useAccount, UseAccountState } from "strata-foundation-react-xnft";
 import { useChatSdk } from "../contexts/chatSdk";
 
 export const useChatPermissions = (

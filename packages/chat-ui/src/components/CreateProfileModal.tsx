@@ -24,7 +24,7 @@ import {
   truncatePubkey,
   useErrorHandler,
   useProvider
-} from "@strata-foundation/react";
+} from "strata-foundation-react-xnft";
 import { sendMultipleInstructions } from "@strata-foundation/spl-utils";
 import React, { useCallback, useEffect, useState } from "react";
 import { useAsyncCallback } from "react-async-hook";

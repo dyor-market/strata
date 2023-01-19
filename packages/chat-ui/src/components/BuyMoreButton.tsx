@@ -17,7 +17,7 @@ import {
   useTokenBonding,
   useTokenBondingKey,
   useTokenMetadata,
-} from "@strata-foundation/react";
+} from "strata-foundation-react-xnft";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { useWallet } from "@solana/wallet-adapter-react";
 

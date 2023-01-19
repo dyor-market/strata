@@ -11,7 +11,7 @@ import {
   useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
-import { usePublicKey } from "@strata-foundation/react";
+import { usePublicKey } from "strata-foundation-react-xnft";
 import { useRouter } from "next/router";
 import { route, routes } from "../../routes";
 import { ActiveUsers } from "./ActiveUsers";

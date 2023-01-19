@@ -13,7 +13,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { ChatSdk } from "@strata-foundation/chat";
-import { useErrorHandler } from "@strata-foundation/react";
+import { useErrorHandler } from "strata-foundation-react-xnft";
 import React, { useEffect, useState } from "react";
 import { useAsyncCallback } from "react-async-hook";
 import { AiOutlinePlus } from "react-icons/ai";

@@ -1,4 +1,4 @@
-import { Notification } from "@strata-foundation/react";
+import { Notification } from "strata-foundation-react-xnft";
 import { ChatProviders } from "../src/components/ChatProviders";
 import { Wallet } from "../src/components/Wallet";
 import { IS_PRODUCTION } from "../src/constants/globals";

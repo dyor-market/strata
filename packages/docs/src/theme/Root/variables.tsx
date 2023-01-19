@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import { useEndpoint } from "@strata-foundation/react";
+import { useEndpoint } from "strata-foundation-react-xnft";
 
 type CodeExec = (vars: any) => Promise<void>;
 interface IVariablesContext {

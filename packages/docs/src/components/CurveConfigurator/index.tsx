@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from "react";
 import { CurveV0, fromCurve, ICurveConfig } from "@strata-foundation/spl-token-bonding";
-import { useQueryString } from "@strata-foundation/react";
+import { useQueryString } from "strata-foundation-react-xnft";
 import { Box, SimpleGrid, VStack, Input } from "@chakra-ui/react";
 import {
   CartesianGrid,

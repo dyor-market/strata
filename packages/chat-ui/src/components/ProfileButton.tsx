@@ -20,7 +20,7 @@ import {
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
-import { useEndpoint } from "@strata-foundation/react";
+import { useEndpoint } from "strata-foundation-react-xnft";
 import React, { FC, MouseEvent, useCallback, useEffect } from "react";
 import { BsCaretDownFill, BsFillPersonFill } from "react-icons/bs";
 import { useWalletProfile } from "../hooks/useWalletProfile";

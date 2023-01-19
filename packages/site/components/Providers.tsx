@@ -6,7 +6,7 @@ import {
   StrataSdksProvider,
   ThemeProvider,
   TokenListProvider,
-} from "@strata-foundation/react";
+} from "strata-foundation-react-xnft";
 import React from "react";
 import toast from "react-hot-toast";
 

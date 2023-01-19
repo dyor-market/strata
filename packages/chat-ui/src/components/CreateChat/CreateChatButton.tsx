@@ -7,7 +7,7 @@ import {
 } from "@chakra-ui/react";
 import { RiMenuAddLine } from "react-icons/ri";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { useErrorHandler } from "@strata-foundation/react";
+import { useErrorHandler } from "strata-foundation-react-xnft";
 import { CreateChatModal } from "./CreateChatModal";
 import { useLoadDelegate } from "../../hooks/useLoadDelegate";
 

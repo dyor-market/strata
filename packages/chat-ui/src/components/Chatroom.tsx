@@ -11,7 +11,7 @@ import {
 import { Flex } from "@chakra-ui/react";
 import { PublicKey } from "@solana/web3.js";
 import { randomizeFileName } from "@strata-foundation/chat";
-import { useErrorHandler } from "@strata-foundation/react";
+import { useErrorHandler } from "strata-foundation-react-xnft";
 // @ts-ignore
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAsyncCallback } from "react-async-hook";

@@ -1,6 +1,6 @@
 {
   "name": "strata-foundation-react-xnft",
-  "version": "3.11.2",
+  "version": "3.666.138",
   "description": "React utils for strata foundation",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/src/index.js",
@@ -36,7 +36,7 @@
     "@solana/spl-token": "0.1.8",
     "@solana/spl-token-registry": "^0.2.2130",
     "@solana/wallet-adapter-base": "^0.9.18",
-    "@solana/wallet-adapter-react": "^0.15.20",
+    "wallet-adapter-react-xnft": "latest",
     "@solana/web3.js": "^1.43.4",
     "@strata-foundation/accelerator": "^3.11.1",
     "@strata-foundation/fungible-entangler": "^3.11.2",

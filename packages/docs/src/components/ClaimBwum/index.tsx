@@ -13,10 +13,10 @@ import {
   usePublicKey,
   useSwap,
   useTokenBonding,
-} from "@strata-foundation/react";
+} from "strata-foundation-react-xnft";
 import { toNumber } from "@strata-foundation/spl-token-bonding";
 import React from "react";
-import { useEndpoint } from "@strata-foundation/react";
+import { useEndpoint } from "strata-foundation-react-xnft";
 //@ts-ignore
 import styles from "./styles.module.css";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";

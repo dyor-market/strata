@@ -1,6 +1,6 @@
 import { Keypair, Signer, SystemProgram, TransactionInstruction } from "@solana/web3.js";
 import { ChatSdk } from "@strata-foundation/chat";
-import { useSolOwnedAmount } from "@strata-foundation/react";
+import { useSolOwnedAmount } from "strata-foundation-react-xnft";
 import { sendInstructions } from "@strata-foundation/spl-utils";
 import { useAsyncCallback } from "react-async-hook";
 import { useChatSdk } from "../contexts/chatSdk";

@@ -29,7 +29,7 @@ import {
 import { PublicKey } from "@solana/web3.js";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { randomizeFileName, uploadFiles } from "@strata-foundation/chat";
-import { useErrorHandler } from "@strata-foundation/react";
+import { useErrorHandler } from "strata-foundation-react-xnft";
 import { ICreateChatModalState } from "./CreateChatModal";
 import { useChatSdk } from "../../contexts/chatSdk";
 import { useChatStorageAccountKey } from "../../hooks/useChatStorageAccountKey";

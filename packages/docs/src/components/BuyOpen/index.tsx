@@ -1,7 +1,7 @@
 import React from "react";
 //@ts-ignore
 import BrowserOnly from "@docusaurus/BrowserOnly";
-import { useEndpoint } from "@strata-foundation/react";
+import { useEndpoint } from "strata-foundation-react-xnft";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { useWallet } from "@solana/wallet-adapter-react";
 import {
@@ -9,7 +9,7 @@ import {
   WalletMultiButton,
 } from "@solana/wallet-adapter-react-ui";
 import { clusterApiUrl } from "@solana/web3.js";
-import { Swap } from "@strata-foundation/react";
+import { Swap } from "strata-foundation-react-xnft";
 import { SplTokenCollective } from "@strata-foundation/spl-token-collective";
 //@ts-ignore
 import styles from "./styles.module.css";

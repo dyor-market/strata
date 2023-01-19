@@ -11,7 +11,7 @@ import {
   useEndpoint,
   usePublicKey,
   useTransactions,
-} from "@strata-foundation/react";
+} from "strata-foundation-react-xnft";
 import BN from "bn.js";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAsync, useAsyncCallback } from "react-async-hook";

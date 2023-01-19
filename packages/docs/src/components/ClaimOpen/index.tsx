@@ -1,6 +1,6 @@
 //@ts-ignore
 import BrowserOnly from "@docusaurus/BrowserOnly";
-import { useEndpoint } from "@strata-foundation/react";
+import { useEndpoint } from "strata-foundation-react-xnft";
 import { u64 } from "@solana/spl-token";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -14,7 +14,7 @@ import {
   useErrorHandler,
   useOwnedAmount,
   usePublicKey, useSolanaUnixTime, useStrataSdks, useTokenBonding
-} from "@strata-foundation/react";
+} from "strata-foundation-react-xnft";
 import { SplTokenBonding } from "@strata-foundation/spl-token-bonding";
 import React, { useEffect, useState } from "react";
 import { useAsyncCallback } from "react-async-hook";

@@ -1,7 +1,7 @@
 import React from 'react';
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { VStack, Heading, Select } from "@chakra-ui/react";
-import { useEndpoint } from "@strata-foundation/react";
+import { useEndpoint } from "strata-foundation-react-xnft";
 
 export const NetworkSelect = () => {
   const { cluster, setClusterOrEndpoint } = useEndpoint();

@@ -1,5 +1,5 @@
 import { Icon } from "@chakra-ui/react";
-import { useEndpoint } from "@strata-foundation/react";
+import { useEndpoint } from "strata-foundation-react-xnft";
 import React, { useCallback } from "react";
 import { BsCheckCircleFill, BsCircle } from "react-icons/bs";
 import { RequiredBooleanSchema } from "yup/lib/boolean";

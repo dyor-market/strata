@@ -1,5 +1,5 @@
 import { PublicKey } from "@solana/web3.js";
-import { useTokenMetadata } from "@strata-foundation/react";
+import { useTokenMetadata } from "strata-foundation-react-xnft";
 
 export function useChatIdFromIdentifierCertificate(
   identifierCertificateMint?: PublicKey

@@ -15,7 +15,7 @@ import {
   useAccelerator,
   useCollectionOwnedAmount,
   useEndpoint,
-} from "@strata-foundation/react";
+} from "strata-foundation-react-xnft";
 import { sendAndConfirmWithRetry } from "@strata-foundation/spl-utils";
 import BN from "bn.js";
 import { createContext, FC, useContext } from "react";

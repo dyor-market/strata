@@ -28,7 +28,7 @@ import {
   useLocalStorage,
   useMint,
   useTokenMetadata,
-} from "@strata-foundation/react";
+} from "strata-foundation-react-xnft";
 import { toNumber } from "@strata-foundation/spl-token-bonding";
 import debounce from "lodash/debounce";
 import React, { useEffect } from "react";

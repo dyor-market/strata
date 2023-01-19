@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect, FC, useRef } from "react";
 import { Fade, Flex, useColorModeValue } from "@chakra-ui/react";
 import data from "@emoji-mart/data";
 import { PublicKey } from "@solana/web3.js";
-import { useErrorHandler } from "@strata-foundation/react";
+import { useErrorHandler } from "strata-foundation-react-xnft";
 import { MessageType } from "@strata-foundation/chat";
 import { BrowserView, MobileView } from "react-device-detect";
 import { useEmojis } from "../contexts/emojis";

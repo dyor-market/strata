@@ -11,7 +11,7 @@ import {
   TextProps,
 } from "@chakra-ui/react";
 import { PublicKey } from "@solana/web3.js";
-import { truncatePubkey, useErrorHandler } from "@strata-foundation/react";
+import { truncatePubkey, useErrorHandler } from "strata-foundation-react-xnft";
 import React from "react";
 import { MdOutlineAddReaction } from "react-icons/md";
 import { IMessageWithPending } from "../../hooks/useMessages";

@@ -13,7 +13,7 @@ import {
 import { RiSearch2Line, RiSunLine, RiMoonLine } from "react-icons/ri";
 import { ProfileButton } from "./ProfileButton";
 import { ChatSidebarPreview } from "./rooms/ChatSidebarPreview";
-import { useLocalStorage } from "@strata-foundation/react";
+import { useLocalStorage } from "strata-foundation-react-xnft";
 import { VISIBLE_CHATS } from "../constants/globals";
 import { useRouter } from "next/router";
 import { useChat } from "../hooks/useChat";

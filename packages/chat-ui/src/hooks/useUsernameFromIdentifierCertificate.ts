@@ -1,5 +1,5 @@
 import { PublicKey } from "@solana/web3.js";
-import { useAssociatedAccount, useTokenMetadata } from "@strata-foundation/react";
+import { useAssociatedAccount, useTokenMetadata } from "strata-foundation-react-xnft";
 import { useMemo } from "react";
 
 export function useUsernameFromIdentifierCertificate(identifierCertificateMint: PublicKey | undefined, owner: PublicKey | undefined): { loading: boolean; username?: string } {

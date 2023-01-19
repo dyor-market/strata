@@ -5,7 +5,7 @@ import {
   useErrorHandler,
   useProvider,
   useTokenBonding,
-} from "@strata-foundation/react";
+} from "strata-foundation-react-xnft";
 import {
   ICandyMachine,
   useCandyMachine,
@@ -23,7 +23,7 @@ import { PublicKey, TransactionInstruction } from "@solana/web3.js";
 import { useAsyncCallback } from "react-async-hook";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
-import { usePublicKey } from "@strata-foundation/react";
+import { usePublicKey } from "strata-foundation-react-xnft";
 
 async function convertToLBC(
   provider: AnchorProvider | undefined,

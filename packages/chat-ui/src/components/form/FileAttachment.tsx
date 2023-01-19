@@ -1,5 +1,5 @@
 import { Icon, IconButton } from "@chakra-ui/react";
-import { useErrorHandler } from "@strata-foundation/react";
+import { useErrorHandler } from "strata-foundation-react-xnft";
 import React from "react";
 import { useAsyncCallback } from "react-async-hook";
 import { IoMdAttach } from "react-icons/io";

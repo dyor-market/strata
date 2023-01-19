@@ -1,6 +1,6 @@
 import { AnchorProvider, Provider } from "@project-serum/anchor";
 import { ChatSdk } from "@strata-foundation/chat";
-import { useProvider } from "@strata-foundation/react";
+import { useProvider } from "strata-foundation-react-xnft";
 import React, { useContext, useMemo } from "react";
 import { useAsync } from "react-async-hook";
 

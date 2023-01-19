@@ -1,7 +1,7 @@
 import { useWallet } from "@solana/wallet-adapter-react";
 import { Keypair, PublicKey } from "@solana/web3.js";
 import { ISettings } from "@strata-foundation/chat";
-import { useLocalStorage } from "@strata-foundation/react";
+import { useLocalStorage } from "strata-foundation-react-xnft";
 import { mnemonicToSeedSync } from "bip39";
 import { useMemo } from "react";
 import { useAsync } from "react-async-hook";

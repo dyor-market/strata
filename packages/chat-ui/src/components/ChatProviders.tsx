@@ -2,7 +2,7 @@ import {
   AcceleratorProvider,
   GraphqlProvider,
   StrataProviders,
-} from "@strata-foundation/react";
+} from "strata-foundation-react-xnft";
 import React, { FC } from "react";
 import { ReplyProvider } from "../contexts/reply";
 import { ChatSdkProvider } from "../contexts/chatSdk";

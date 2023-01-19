@@ -9,7 +9,7 @@ import {
   BoxProps,
 } from "@chakra-ui/react";
 import React from "react";
-import { Notification } from "@strata-foundation/react";
+import { Notification } from "strata-foundation-react-xnft";
 import toast from "react-hot-toast";
 import { BsClipboard } from "react-icons/bs";
 

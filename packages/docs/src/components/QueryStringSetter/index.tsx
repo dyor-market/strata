@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Text, Input, Box } from "@chakra-ui/react";
-import { useQueryString } from "@strata-foundation/react";
+import { useQueryString } from "strata-foundation-react-xnft";
 import { useVariablesContext } from "../../theme/Root/variables";
 
 export function QueryStringSetter({

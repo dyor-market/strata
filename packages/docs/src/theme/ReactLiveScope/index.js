@@ -44,7 +44,7 @@ import {
   useBondedTokenPrice,
   useErrorHandler,
   usePublicKey
-} from "@strata-foundation/react";
+} from "strata-foundation-react-xnft";
 import {
   TimeDecayExponentialCurveConfig,
   ExponentialCurveConfig,
@@ -93,7 +93,7 @@ function Swap(props) {
   return (
     <BrowserOnly fallback={<div>...</div>}>
       {() => {
-        const Component = require("@strata-foundation/react").Swap;
+        const Component = require("strata-foundation-react-xnft").Swap;
         return <Component {...props} />;
       }}
     </BrowserOnly>
@@ -115,7 +115,7 @@ function StrataProviders(props) {
   return (
     <BrowserOnly fallback={<div>...</div>}>
       {() => {
-        const Component = require("@strata-foundation/react").StrataProviders;
+        const Component = require("strata-foundation-react-xnft").StrataProviders;
         return <Component {...props} />;
       }}
     </BrowserOnly>
@@ -150,7 +150,7 @@ function ManyToOneSwap(props) {
     return (
       <BrowserOnly fallback={<div>...</div>}>
         {() => {
-          const Component = require("@strata-foundation/react").ManyToOneSwap;
+          const Component = require("strata-foundation-react-xnft").ManyToOneSwap;
           return <Component {...props} />;
         }}
       </BrowserOnly>

@@ -5,7 +5,7 @@ import { useVariables, useVariablesContext, VariablesProvider } from "../../them
 import { recursiveTransformBN } from "../../theme/ReactLiveScope/AsyncButton";
 //@ts-ignore
 import BrowserOnly from "@docusaurus/BrowserOnly";
-import { usePublicKey } from "@strata-foundation/react";
+import { usePublicKey } from "strata-foundation-react-xnft";
 
 function BrowserOnlyReactJson(props) {
   return (

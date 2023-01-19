@@ -14,7 +14,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { PublicKey } from "@solana/web3.js";
-import { usePublicKey } from "@strata-foundation/react";
+import { usePublicKey } from "strata-foundation-react-xnft";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
 import { Carousel } from "react-responsive-carousel";

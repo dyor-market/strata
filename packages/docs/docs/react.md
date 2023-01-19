@@ -74,7 +74,7 @@ export const Wallet: FC = ({ children }) => {
 Then, setup Strata:
 
 ```jsx
-import { StrataProviders } from "@strata-foundation/react";
+import { StrataProviders } from "strata-foundation-react-xnft";
 import { Wallet } from "./Wallet";
 
 export const App: FC = ({ children }) => (
@@ -109,7 +109,7 @@ var { ownerTokenRef, tokenBonding, targetMint } =
 Now display it in React! We can use an advanced, pre-canned trade form:
 
 ```js
-import { Swap, StrataProviders } from "@strata-foundation/react";
+import { Swap, StrataProviders } from "strata-foundation-react-xnft";
 import ReactShadow from "react-shadow/emotion";
 import { CSSReset } from "@chakra-ui/react";
 ```
@@ -140,7 +140,7 @@ import {
   useTokenRef,
   useBondingPricing,
   useErrorHandler,
-} from "@strata-foundation/react";
+} from "strata-foundation-react-xnft";
 import { NATIVE_MINT } from "@solana/spl-token";
 ```
 

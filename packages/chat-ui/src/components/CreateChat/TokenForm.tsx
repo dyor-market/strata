@@ -21,7 +21,7 @@ import { RiErrorWarningFill } from "react-icons/ri";
 import { NATIVE_MINT } from "@solana/spl-token";
 import { FormControlWithError } from "../form/FormControlWithError";
 import { MintSelect } from "../form/MintSelect";
-import { usePublicKey } from "@strata-foundation/react";
+import { usePublicKey } from "strata-foundation-react-xnft";
 import { routes } from "../../routes";
 
 export interface ITokenFormValues {

@@ -17,7 +17,7 @@ import { AnchorProvider, Program } from "@project-serum/anchor";
 import NodeWallet from "@project-serum/anchor/dist/cjs/nodewallet";
 import { Connection, Keypair, PublicKey } from "@solana/web3.js";
 import { ChatSdk, IEntry } from "@strata-foundation/chat";
-import { getClusterAndEndpoint, TokenListProvider, usePublicKey } from "@strata-foundation/react";
+import { getClusterAndEndpoint, TokenListProvider, usePublicKey } from "strata-foundation-react-xnft";
 // @ts-ignore
 import LitNodeJsSdk from "lit-js-sdk/build/index.node.js";
 import {

@@ -1,6 +1,6 @@
 import { Avatar, Box, Flex, HStack, Text } from "@chakra-ui/react";
 import { MessageType } from "@strata-foundation/chat";
-import { truncatePubkey } from "@strata-foundation/react";
+import { truncatePubkey } from "strata-foundation-react-xnft";
 import React, { useMemo } from "react";
 import { useAsync } from "react-async-hook";
 import { IMessageWithPending } from "../../hooks/useMessages";

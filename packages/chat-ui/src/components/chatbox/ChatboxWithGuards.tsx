@@ -16,7 +16,7 @@ import {
   useErrorHandler,
   useMint,
   useTokenMetadata,
-} from "@strata-foundation/react";
+} from "strata-foundation-react-xnft";
 import { toNumber } from "@strata-foundation/spl-token-bonding";
 import { useChatPermissionsFromChat } from "../../hooks/useChatPermissionsFromChat";
 import React, { useRef, useState } from "react";

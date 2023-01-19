@@ -33,7 +33,7 @@ import { AiFillLock } from "react-icons/ai";
 import { AiOutlinePlus } from "react-icons/ai";
 import { PublicKey } from "@solana/web3.js";
 import { ISendMessageContent, MessageType } from "@strata-foundation/chat";
-import { useErrorHandler, useMint, useTokenMetadata } from "@strata-foundation/react";
+import { useErrorHandler, useMint, useTokenMetadata } from "strata-foundation-react-xnft";
 import React, {
   KeyboardEventHandler,
   useCallback,

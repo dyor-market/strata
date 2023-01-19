@@ -12,7 +12,7 @@ import {
   useProvider,
   useStrataSdks,
   useEndpoint,
-} from "@strata-foundation/react";
+} from "strata-foundation-react-xnft";
 import BN from "bn.js";
 import clsx from "clsx";
 import { parse } from "esprima";

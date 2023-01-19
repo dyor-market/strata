@@ -19,7 +19,7 @@ import {
   useErrorHandler,
   useMint,
   useTokenMetadata,
-} from "@strata-foundation/react";
+} from "strata-foundation-react-xnft";
 import { humanReadable, toNumber } from "@strata-foundation/spl-utils";
 import moment from "moment";
 import { useAsync } from "react-async-hook";

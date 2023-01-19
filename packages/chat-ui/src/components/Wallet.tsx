@@ -8,7 +8,7 @@ import { SolflareWalletAdapter } from "@solana/wallet-adapter-solflare";
 import { GlowWalletAdapter } from "@solana/wallet-adapter-glow";
 import { ExodusWalletAdapter } from "@solana/wallet-adapter-exodus";
 import React, { useEffect, useMemo } from "react";
-import { useEndpoint } from "@strata-foundation/react";
+import { useEndpoint } from "strata-foundation-react-xnft";
 
 export const getToken = async () => {
   const req = await fetch("/api/get-token");

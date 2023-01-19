@@ -10,7 +10,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { TokenSearch, usePrimaryClaimedTokenRef } from "@strata-foundation/react";
+import { TokenSearch, usePrimaryClaimedTokenRef } from "strata-foundation-react-xnft";
 import { useCallback, useEffect } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 

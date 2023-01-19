@@ -2,7 +2,7 @@ import { ENTRY_SEED, NAMESPACES_PROGRAM_ID } from "@cardinal/namespaces";
 import { utils } from "@project-serum/anchor";
 import { PublicKey } from "@solana/web3.js";
 import { ChatSdk } from "@strata-foundation/chat";
-import { useAccount } from "@strata-foundation/react";
+import { useAccount } from "strata-foundation-react-xnft";
 import { useEffect } from "react";
 import { useAsync } from "react-async-hook";
 import { useChatSdk } from "../contexts/chatSdk";

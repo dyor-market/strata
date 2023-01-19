@@ -18,7 +18,7 @@ import {
   Divider,
 } from "@chakra-ui/react";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { useErrorHandler, useSolOwnedAmount } from "@strata-foundation/react";
+import { useErrorHandler, useSolOwnedAmount } from "strata-foundation-react-xnft";
 import React, { useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useAnalyticsEventTracker } from "../hooks/useAnalyticsEventTracker";

@@ -1,5 +1,5 @@
 import { CloseButton, Text } from "@chakra-ui/react";
-import { truncatePubkey } from "@strata-foundation/react";
+import { truncatePubkey } from "strata-foundation-react-xnft";
 import React, { useMemo } from "react";
 import { useReply } from "../../contexts/reply";
 import { useUsernameFromIdentifierCertificate } from "../../hooks/useUsernameFromIdentifierCertificate";

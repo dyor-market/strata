@@ -12,7 +12,7 @@ import {
   useStrataSdks,
   useUserTokensWithMeta,
   useRentExemptAmount
-} from "@strata-foundation/react";
+} from "strata-foundation-react-xnft";
 import { toNumber } from "@strata-foundation/spl-token-bonding";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 //@ts-ignore

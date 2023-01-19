@@ -3,7 +3,7 @@ import { ChatSdkProvider, EmojisProvider, ReplyProvider } from "@strata-foundati
 import { MarketplaceSdkProvider } from "@strata-foundation/marketplace-ui";
 import {
   AcceleratorProvider, AccountProvider, ErrorHandlerProvider, GraphqlProvider, Notification, ProviderContextProvider, StrataSdksProvider, ThemeProvider
-} from "@strata-foundation/react";
+} from "strata-foundation-react-xnft";
 import React from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { Wallet } from "../../contexts/Wallet";

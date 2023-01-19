@@ -1,7 +1,7 @@
 import { useConnection } from "wallet-adapter-react-xnft";
 import { Connection, PublicKey } from "@solana/web3.js";
 import { ChatSdk } from "@strata-foundation/chat";
-import { useTokenAccount } from "@strata-foundation/react";
+import { useTokenAccount } from "strata-foundation-react-xnft";
 import { useMemo } from "react";
 import { useAsync } from "react-async-hook";
 import { useChatSdk } from "../contexts/chatSdk";

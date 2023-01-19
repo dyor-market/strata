@@ -5,7 +5,7 @@ import {
   useSolanaUnixTime,
   useTokenBonding,
   useTokenSwapFromId,
-} from "@strata-foundation/react";
+} from "strata-foundation-react-xnft";
 import { useVariables } from "../../theme/Root/variables";
 import React, { useState } from "react";
 import {

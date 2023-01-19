@@ -69,6 +69,6 @@
     "lerna": "^4.0.0",
     "quicktype-core": "^6.0.70",
     "react-native": "^0.71.0",
-    "wallet-adapter-react-xnft": "^0.15.28"
+    "wallet-adapter-react-xnft": "^0.15.28.138"
   }
 }

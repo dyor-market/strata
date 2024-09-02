@@ -1,5 +1,5 @@
 import { Box, Container, DarkMode, useColorModeValue } from "@chakra-ui/react";
-import * as anchor from "@project-serum/anchor";
+import * as anchor from "@coral-xyz/anchor";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { usePublicKey } from "@strata-foundation/react";
 import { NextPage } from "next";

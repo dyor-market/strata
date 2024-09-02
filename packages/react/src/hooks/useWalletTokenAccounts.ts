@@ -1,14 +1,3 @@
-import { useConnection } from "@solana/wallet-adapter-react";
-import { PublicKey } from "@solana/web3.js";
-import { useAsync } from "react-async-hook";
-import { getWalletTokenAccounts } from "../utils/getWalletTokenAccounts";
-
-/**
- * Get all token accounts associated with this wallet
- * @param owner
- * @returns
- */
-export const useWalletTokenAccounts = (owner?: PublicKey) => {
-  const { connection } = useConnection();
-  return useAsync(getWalletTokenAccounts, [connection, owner]);
-};
+version https://git-lfs.github.com/spec/v1
+oid sha256:01f882235d814933f8781e1396fa30584e7f31a8b7a9c9ca07652184a20be017
+size 489

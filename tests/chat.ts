@@ -3,8 +3,8 @@ import {
   NAMESPACES_PROGRAM,
   NAMESPACES_PROGRAM_ID,
 } from "@cardinal/namespaces";
-import * as anchor from "@project-serum/anchor";
-import { AnchorProvider, Program } from "@project-serum/anchor";
+import * as anchor from "@coral-xyz/anchor";
+import { AnchorProvider, Program } from "@coral-xyz/anchor";
 import {
   Connection,
   Keypair,

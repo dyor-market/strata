@@ -1,4 +1,4 @@
-import { AnchorProvider, BN } from "@project-serum/anchor";
+import { AnchorProvider, BN } from "@coral-xyz/anchor";
 import {
   AccountLayout,
   ASSOCIATED_TOKEN_PROGRAM_ID,
@@ -268,7 +268,7 @@ export const useSwapDriver = ({
         const entangledBase = (parentEntangler && childEntangler && parentEntangler.parentMint.equals(baseMint!)) ? childEntangler.childMint : baseMint;
         const entangledTarget = (parentEntangler && childEntangler && parentEntangler.parentMint.equals(targetMint!)) ? childEntangler.childMint : targetMint;
         await swap({
-          baseMint: entangledBase!,
+          baseMint: baseMint,
           targetMint: entangledTarget!,
           ...outputAmountSetting,
           slippage: +values.slippage / 100,

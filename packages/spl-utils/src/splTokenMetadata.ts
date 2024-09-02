@@ -13,7 +13,7 @@ import {
   VerifyCollection,
   CreateMasterEditionV3
 } from "@metaplex-foundation/mpl-token-metadata";
-import { AnchorProvider, BN } from "@project-serum/anchor";
+import { AnchorProvider, BN } from "@coral-xyz/anchor";
 import { AccountInfo as TokenAccountInfo, MintInfo } from "@solana/spl-token";
 import { PublicKey, Signer, TransactionInstruction } from "@solana/web3.js";
 import { getMintInfo, InstructionResult, sendInstructions, truthy } from ".";
@@ -111,7 +111,7 @@ export interface IVerifyCollectionInstructionsArgs {
 }
 
 export interface ICreateMetadataInstructionsArgs {
-  data: DataV2;
+  data: any;
   authority?: PublicKey;
   mintAuthority?: PublicKey;
   mint: PublicKey;
@@ -119,7 +119,7 @@ export interface ICreateMetadataInstructionsArgs {
 }
 
 export interface IUpdateMetadataInstructionsArgs {
-  data?: DataV2 | null;
+  data?: any | null;
   newAuthority?: PublicKey | null;
   metadata: PublicKey;
   payer?: PublicKey;
@@ -591,7 +591,7 @@ export class SplTokenMetadata {
       {
         metadata,
         mint,
-        metadataData: new DataV2({ ...data }),
+        metadataData: ({ ...data }),
         mintAuthority,
         updateAuthority: authority,
       }
@@ -638,8 +638,8 @@ export class SplTokenMetadata {
       {
         metadata,
         metadataData: data
-          ? new DataV2({ ...data })
-          : new DataV2({
+          ? ({ ...data })
+          : ({
               ...metadataAcct.data,
               collection: metadataAcct?.collection,
               uses: metadataAcct?.uses,

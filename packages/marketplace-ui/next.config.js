@@ -30,6 +30,8 @@ const config = {
       borsh: path.resolve("../../node_modules/borsh"),
       buffer: path.resolve("../../node_modules/buffer"),
     };
+    config.experiments = { ...config.experiments, topLevelAwait: true };
+
     return config;
   },
   async redirects() {

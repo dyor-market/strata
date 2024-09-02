@@ -1,4 +1,4 @@
-import { AnchorProvider } from "@project-serum/anchor";
+import { AnchorProvider } from "@coral-xyz/anchor";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { ConfirmOptions, sendAndConfirmRawTransaction, Signer, Transaction } from "@solana/web3.js";
 import React from "react";

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { PublicKey, Signer, TransactionInstruction } from "@solana/web3.js";
 import React, { useMemo, useState } from "react";
 import toast from "react-hot-toast";
@@ -63,6 +64,8 @@ export const TokenOffering = ({
     // buy the first bonding curve
     const { instructions: i1, signers: s1 } =
       await tokenBondingSdk!.buyInstructions({
+        baseMint: PublicKey.default,
+
         desiredTargetAmount: +values.bottomAmount,
         slippage: +values.slippage / 100,
         tokenBonding: tokenBonding?.publicKey!,
@@ -99,7 +102,8 @@ export const TokenOffering = ({
           targetAmount: roundToDecimals(
             +values.bottomAmount,
             supplyMint.decimals
-          ),
+          ),        baseMint: PublicKey.default,
+
           slippage: +values.slippage / 100,
           tokenBonding: retrievalTokenBonding.publicKey!,
         });

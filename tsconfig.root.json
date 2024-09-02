@@ -1,6 +1,3 @@
-{
-    "extends": "./tsconfig.base.json",
-    "compilerOptions": {
-        "composite": true
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:3660804879b2f2c2b5a959fc64762180c77ced0c9540d1c04f68d5bd649c32fc
+size 99

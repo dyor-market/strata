@@ -1,5 +1,5 @@
 import { getOrca, OrcaPoolConfig } from "@orca-so/sdk";
-import { AnchorProvider, Wallet } from "@project-serum/anchor";
+import { AnchorProvider, Wallet } from "@coral-xyz/anchor";
 import { ShdwDrive } from "@shadow-drive/sdk";
 import { StorageAccountInfo } from "@shadow-drive/sdk/dist/types";
 import {
@@ -19,26 +19,7 @@ import {
 } from ".";
 import BN from "bn.js";
 import Decimal from "decimal.js";
-
-export default class NodeWallet implements Wallet {
-  constructor(readonly payer: Keypair) {}
-
-  async signTransaction(tx: Transaction): Promise<Transaction> {
-    tx.partialSign(this.payer);
-    return tx;
-  }
-
-  async signAllTransactions(txs: Transaction[]): Promise<Transaction[]> {
-    return txs.map((t) => {
-      t.partialSign(this.payer);
-      return t;
-    });
-  }
-
-  get publicKey(): PublicKey {
-    return this.payer.publicKey;
-  }
-}
+import NodeWallet from "@coral-xyz/anchor/dist/cjs/nodewallet";
 
 const PROGRAM_ID = new PublicKey(
   "2e1wdyNhUvE76y6yUCvah2KaviavMJYKoRun8acMRBZZ"

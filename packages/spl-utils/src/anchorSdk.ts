@@ -5,26 +5,26 @@ import {
   Program,
   AnchorProvider,
   RpcNamespace,
-} from "@project-serum/anchor";
-import { AllInstructions } from "@project-serum/anchor/dist/cjs/program/namespace/types";
-import { Wallet } from "@project-serum/anchor/dist/cjs/provider";
+} from "@coral-xyz/anchor";
+import { AllInstructions } from "@coral-xyz/anchor/dist/cjs/program/namespace/types";
+import { Wallet } from "@coral-xyz/anchor/dist/cjs/provider";
 import { PublicKey, Signer, TransactionInstruction, Commitment, Finality } from "@solana/web3.js";
 import { TypedAccountParser } from "./accountFetchCache";
 import { BigInstructionResult, InstructionResult, sendInstructions, sendMultipleInstructions } from "./transaction";
 
 export abstract class AnchorSdk<IDL extends Idl> {
-  program: Program<IDL>;
+  program: Program<any>;
   provider: AnchorProvider;
   programId: PublicKey;
-  rpc: RpcNamespace<IDL, AllInstructions<IDL>>;
-  instruction: InstructionNamespace<IDL, IDL["instructions"][number]>;
+  rpc: RpcNamespace<IDL, AllInstructions<any>>;
+  instruction: InstructionNamespace<any, any["instructions"][number]>;
   wallet: Wallet;
-  account: AccountNamespace<IDL>;
+  account: AccountNamespace<any>;
   errors: Map<number, string> | undefined;
 
   static ID: PublicKey;
 
-  constructor(args: { provider: AnchorProvider; program: Program<IDL> }) {
+  constructor(args: { provider: AnchorProvider; program: Program<any> }) {
     this.program = args.program;
     this.provider = args.provider;
     this.programId = args.program.programId;

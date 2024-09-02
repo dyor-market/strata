@@ -1,26 +1,3 @@
-{
-  "extends": "../../tsconfig.root.json",
-  "references": [
-    {
-      "path": "../accelerator"
-    },
-    {
-      "path": "../fungible-entangler"
-    },
-    {
-      "path": "../spl-token-bonding"
-    },
-    {
-      "path": "../spl-token-collective"
-    },
-    {
-      "path": "../spl-utils"
-    },
-    {
-      "path": "./tsconfig.cjs.json"
-    },
-    {
-      "path": "./tsconfig.esm.json"
-    }
-  ]
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:4311b213aca0af690a205db2a944bf147a7df43386048604e4a9b15fa4482f29
+size 311

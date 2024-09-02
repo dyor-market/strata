@@ -1,8 +1,3 @@
-{
-  "extends": "../../tsconfig.cjs.json",
-  "include": ["src"],
-  "compilerOptions": {
-    "outDir": "lib/cjs",
-    "jsx": "react"
-  }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:1137235b6e627a7a31941a5f98d42d6ca76788925103b6c2520104753ce0b8be
+size 137

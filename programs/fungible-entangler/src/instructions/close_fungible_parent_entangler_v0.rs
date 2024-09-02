@@ -21,7 +21,7 @@ pub struct CloseFungibleParentEntanglerV0<'info> {
   )]
   pub parent_entangler: Box<Account<'info, FungibleParentEntanglerV0>>,
   #[account(mut)]
-  pub parent_storage: Box<Account<'info, TokenAccount>>,
+  pub parent_storage: Box<InterfaceAccount<'info, TokenAccount>>,
   pub token_program: Program<'info, Token>,
 }
 

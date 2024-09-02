@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { NameRegistryState } from "@solana/spl-name-service";
 import { useConnection } from "@solana/wallet-adapter-react";
 import { PublicKey } from "@solana/web3.js";
@@ -6,7 +7,6 @@ import {
 } from "@strata-foundation/spl-token-bonding";
 import {
   ITokenRef,
-  SplTokenCollective
 } from "@strata-foundation/spl-token-collective";
 import { AccountFetchCache } from "@strata-foundation/spl-utils";
 import { deserializeUnchecked } from "borsh";
@@ -52,30 +52,13 @@ export async function getClaimedTokenRefKeyForName(
   handle: string,
   mint: PublicKey | undefined | null = undefined,
   tld: PublicKey
-): Promise<PublicKey | undefined> {
-  const owner = await getOwnerForName(cache, handle, tld);
-  if (owner) {
-    return (
-      await SplTokenCollective.ownerTokenRefKey({
-        owner,
-        mint,
-      })
-    )[0];
-  }
+) {
 }
 export async function getUnclaimedTokenRefKeyForName(
   handle: string,
   mint: PublicKey | undefined | null,
   tld: PublicKey | undefined
-): Promise<PublicKey> {
-  const name = await getTwitterRegistryKey(handle, tld);
-
-  return (
-    await SplTokenCollective.ownerTokenRefKey({
-      name,
-      mint: mint || SplTokenCollective.OPEN_COLLECTIVE_MINT_ID,
-    })
-  )[0];
+) {
 }
 
 export const useUnclaimedTokenRefKeyForName = (
@@ -125,13 +108,7 @@ export const useClaimedTokenRefKey = (
   owner: PublicKey | undefined | null,
   mint: PublicKey | undefined | null
 ): PublicKey | undefined => {
-  const { result } = useAsync(
-    async (owner: PublicKey | undefined | null) =>
-      owner && SplTokenCollective.ownerTokenRefKey({ owner, mint }),
-    [owner]
-  );
-
-  return result ? result[0] : undefined;
+  return undefined;
 };
 
 /**
@@ -143,13 +120,7 @@ export const useClaimedTokenRefKey = (
 export function useTokenRefFromBonding(
   tokenBonding: PublicKey | undefined | null
 ): UseAccountState<ITokenRef> {
-  const bonding = useTokenBonding(tokenBonding);
-  const { result: key } = useAsync(
-    async (bonding: TokenBondingV0 | undefined | null) =>
-      bonding && SplTokenCollective.mintTokenRefKey(bonding.targetMint),
-    [bonding.info]
-  );
-  return useTokenRef(key && key[0]);
+  return undefined
 }
 
 /**
@@ -161,12 +132,7 @@ export function useTokenRefFromBonding(
 export function useMintTokenRef(
   mint: PublicKey | undefined | null
 ): UseAccountState<ITokenRef> {
-  const { result: key } = useAsync(
-    async (mint: PublicKey | undefined | null) =>
-      mint && SplTokenCollective.mintTokenRefKey(mint),
-    [mint]
-  );
-  return useTokenRef(key && key[0]);
+  return undefined
 }
 
 /**

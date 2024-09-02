@@ -1,5 +1,5 @@
-import * as anchor from "@project-serum/anchor";
-import { Keypair } from "@solana/web3.js";
+import * as anchor from "@coral-xyz/anchor";
+import { Keypair, PublicKey } from "@solana/web3.js";
 import { expect, use } from "chai";
 import ChaiAsPromised from "chai-as-promised";
 import { MarketplaceSdk } from "@strata-foundation/marketplace-sdk";
@@ -17,7 +17,7 @@ import { DataV2 } from "@metaplex-foundation/mpl-token-metadata";
 import { NATIVE_MINT } from "@solana/spl-token";
 import { waitForUnixTime } from "./utils/clock";
 import { SplTokenCollective } from "@strata-foundation/spl-token-collective";
-import { AnchorProvider } from "@project-serum/anchor";
+import { AnchorProvider } from "@coral-xyz/anchor";
 import { FungibleEntangler } from "@strata-foundation/fungible-entangler";
 
 use(ChaiAsPromised);
@@ -64,15 +64,13 @@ describe("marketplace-sdk", () => {
     const { targetMint, tokenBonding } =
       await marketplaceSdk.createLiquidityBootstrapper({
         authority: me,
-        metadata: new DataV2({
+        metadata: ({
           // Max name len 32
           name: "test",
           symbol: "test",
           uri: "",
           sellerFeeBasisPoints: 0,
           creators: null,
-          collection: null,
-          uses: null,
         }),
         baseMint: NATIVE_MINT,
         startPrice: 5,
@@ -105,15 +103,13 @@ describe("marketplace-sdk", () => {
     const { targetMint, tokenBonding } =
       await marketplaceSdk.createLiquidityBootstrapper({
         authority: me,
-        metadata: new DataV2({
+        metadata: ({
           // Max name len 32
           name: "test",
           symbol: "test",
           uri: "",
           sellerFeeBasisPoints: 0,
           creators: null,
-          collection: null,
-          uses: null,
         }),
         baseMint: NATIVE_MINT,
         startPrice: 2.5,
@@ -136,6 +132,7 @@ describe("marketplace-sdk", () => {
         tokenBonding,
         desiredTargetAmount: 1,
         slippage: 0.05,
+        baseMint: PublicKey.default
       });
     }
   });

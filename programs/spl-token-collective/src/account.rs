@@ -384,22 +384,22 @@ pub struct ClaimSocialTokenV0<'info> {
   pub base_mint: Box<Account<'info, Mint>>,
   pub target_mint: Box<Account<'info, Mint>>,
   #[account(mut)]
-  pub buy_base_royalties: Box<Account<'info, TokenAccount>>,
+  pub buy_base_royalties: Box<InterfaceAccount<'info, TokenAccount>>,
   #[account(mut)]
-  pub buy_target_royalties: Box<Account<'info, TokenAccount>>,
+  pub buy_target_royalties: Box<InterfaceAccount<'info, TokenAccount>>,
   #[account(mut)]
-  pub sell_base_royalties: Box<Account<'info, TokenAccount>>,
+  pub sell_base_royalties: Box<InterfaceAccount<'info, TokenAccount>>,
   #[account(mut)]
-  pub sell_target_royalties: Box<Account<'info, TokenAccount>>,
+  pub sell_target_royalties: Box<InterfaceAccount<'info, TokenAccount>>,
 
   #[account(mut)]
-  pub new_buy_base_royalties: Box<Account<'info, TokenAccount>>,
+  pub new_buy_base_royalties: Box<InterfaceAccount<'info, TokenAccount>>,
   #[account(mut)]
-  pub new_buy_target_royalties: Box<Account<'info, TokenAccount>>,
+  pub new_buy_target_royalties: Box<InterfaceAccount<'info, TokenAccount>>,
   #[account(mut)]
-  pub new_sell_base_royalties: Box<Account<'info, TokenAccount>>,
+  pub new_sell_base_royalties: Box<InterfaceAccount<'info, TokenAccount>>,
   #[account(mut)]
-  pub new_sell_target_royalties: Box<Account<'info, TokenAccount>>,
+  pub new_sell_target_royalties: Box<InterfaceAccount<'info, TokenAccount>>,
 
   /// CHECK: Checked with constraints
   #[account(address = spl_token_bonding::id())]

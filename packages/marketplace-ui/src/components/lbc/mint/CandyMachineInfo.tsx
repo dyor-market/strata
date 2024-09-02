@@ -6,7 +6,7 @@ import { PublicKey } from "@solana/web3.js";
 import { useMint, useMetaplexTokenMetadata } from "@strata-foundation/react";
 import { toNumber } from "@strata-foundation/spl-token-bonding";
 import { BigText, BlackBox } from "../LbcInfo";
-import * as anchor from "@project-serum/anchor";
+import * as anchor from "@coral-xyz/anchor";
 
 export const CandyMachineInfo = ({ candyMachine, itemsRemaining, isWhitelistUser, discountPrice }: ICandyMachineState) => {
   const { metadata, loading: loadingMeta } = useMetaplexTokenMetadata(

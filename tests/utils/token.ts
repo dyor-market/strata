@@ -1,4 +1,4 @@
-import { AnchorProvider } from "@project-serum/anchor";
+import { AnchorProvider } from "@coral-xyz/anchor";
 import { PublicKey, Transaction, SystemProgram, Keypair } from "@solana/web3.js";
 import { NATIVE_MINT, AccountLayout, TOKEN_PROGRAM_ID, Token, ASSOCIATED_TOKEN_PROGRAM_ID, AccountInfo as TokenAccountInfo, u64 } from '@solana/spl-token';
 import { expect } from "chai";
@@ -122,7 +122,7 @@ export class TokenUtils {
     const splTokenMetadata = await SplTokenMetadata.init(provider);
     const mintKey = await createMint(provider, this.provider.wallet.publicKey, 0, mintKeypair);
     await splTokenMetadata.createMetadata({
-      data: new DataV2({
+      data: ({
         name: "test",
         symbol: "TST",
         uri: "http://test/",

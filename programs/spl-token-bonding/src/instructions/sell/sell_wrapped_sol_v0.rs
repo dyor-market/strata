@@ -28,7 +28,7 @@ pub struct SellWrappedSolV0<'info> {
     has_one = owner,
     constraint = source.mint == wrapped_sol_mint.key()
   )]
-  pub source: Box<Account<'info, TokenAccount>>,
+  pub source: Box<InterfaceAccount<'info, TokenAccount>>,
   /// CHECK: Manually check signer here instead of using Signer so it can be used in internal CPI
   #[account(signer)]
   pub owner: AccountInfo<'info>,

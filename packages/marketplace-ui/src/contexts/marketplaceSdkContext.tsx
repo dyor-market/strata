@@ -1,4 +1,4 @@
-import { AnchorProvider } from "@project-serum/anchor";
+import { AnchorProvider } from "@coral-xyz/anchor";
 import { MarketplaceSdk } from "@strata-foundation/marketplace-sdk";
 import { useProvider } from "@strata-foundation/react";
 import React, { useContext, useMemo } from "react";

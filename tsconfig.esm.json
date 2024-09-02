@@ -1,11 +1,3 @@
-{
-    "extends": "./tsconfig.root.json",
-    "compilerOptions": {
-        "target": "ESNext",
-        "module": "ESNext",
-        "sourceMap": true,
-        "declaration": true,
-        "declarationMap": true,
-        "composite": true
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:23f3f10e7bc822052fb84e3760aa66bf16e6168cb6415565b9fc29293296bebd
+size 243

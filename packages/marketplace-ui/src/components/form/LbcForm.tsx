@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { DataV2 } from "@metaplex-foundation/mpl-token-metadata";
-import { Program } from "@project-serum/anchor";
+import { Program } from "@coral-xyz/anchor";
 import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
   NATIVE_MINT,
@@ -129,15 +129,13 @@ async function createLbcCandyMachine(
   const authority = new PublicKey(values.authority);
   const mint = new PublicKey(values.mint);
 
-  const metadata = new DataV2({
+  const metadata = ({
     // Max name len 32
     name: "Candymachine Mint Token",
     symbol: "",
     uri: "",
     sellerFeeBasisPoints: 0,
     creators: null,
-    collection: null,
-    uses: null,
   });
 
   const {
@@ -190,10 +188,10 @@ async function createLbcCandyMachine(
     );
     const candymachineProgram = new Program(
       candymachineIdl!,
-      new PublicKey("cndy3Z4yapfJBmL3ShUp5exZKqR3z33thTzeNMm2gRZ"),
       marketplaceSdk.provider
     );
     const candymachine: any =
+    // @ts-ignore
       await candymachineProgram.account.candyMachine.fetch(candyMachineId);
     const ix = await candymachineProgram.instruction.updateCandyMachine(
       {
@@ -252,14 +250,12 @@ async function createLbcExistingMint(
     await getMintInfo(marketplaceSdk.provider, existingMint)
   ).decimals;
 
-  const metadata = new DataV2({
+  const metadata = ({
     name: values.name || "",
     symbol: values.symbol || "",
     uri: values.uri || "",
     sellerFeeBasisPoints: 0,
     creators: null,
-    collection: null,
-    uses: null,
   });
 
   const {
@@ -321,15 +317,13 @@ async function createLbcNewMint(
     image: values.image,
     mint: targetMintKeypair.publicKey,
   });
-  const metadata = new DataV2({
+  const metadata = ({
     // Max name len 32
     name: values.name!.substring(0, 32),
     symbol: (values.symbol || "").substring(0, 10),
     uri,
     sellerFeeBasisPoints: 0,
     creators: null,
-    collection: null,
-    uses: null,
   });
 
   const {

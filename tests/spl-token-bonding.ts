@@ -1,5 +1,5 @@
-import * as anchor from "@project-serum/anchor";
-import { AnchorProvider, BN } from "@project-serum/anchor";
+import * as anchor from "@coral-xyz/anchor";
+import { AnchorProvider, BN } from "@coral-xyz/anchor";
 import {
   createMint,
   createAtaAndMint,
@@ -567,7 +567,8 @@ describe("spl-token-bonding", () => {
         await tokenBondingProgram.buyInstructions({
           tokenBonding,
           desiredTargetAmount: new BN(100),
-          slippage: 0.5,
+          slippage: 0.5,        baseMint: PublicKey.default,
+
           sourceAuthority: newWallet.publicKey,
         });
       await tokenBondingProgram.sendInstructions(instructions, [
@@ -654,6 +655,7 @@ describe("spl-token-bonding", () => {
           desiredTargetAmount: new BN(100),
           slippage: 0.05,
           sourceAuthority: newWallet.publicKey,
+          baseMint: PublicKey.default
         });
 
       const tx = new Transaction();
@@ -678,7 +680,8 @@ describe("spl-token-bonding", () => {
       const { instructions, signers } =
         await tokenBondingProgram.buyInstructions({
           tokenBonding,
-          desiredTargetAmount: new BN(100),
+          desiredTargetAmount: new BN(100),        baseMint: PublicKey.default,
+
           slippage: 0.05,
           sourceAuthority: newWallet.publicKey,
         });

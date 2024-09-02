@@ -10,12 +10,14 @@ pub struct TransferReservesV0Common<'info> {
     mut,
     constraint = token_bonding.reserve_authority.ok_or(error!(ErrorCode::NoAuthority))? == reserve_authority.key(),
     has_one = base_mint,
-    has_one = base_storage
   )]
   pub token_bonding: Account<'info, TokenBondingV0>,
   pub reserve_authority: Signer<'info>,
   pub base_mint: Box<Account<'info, Mint>>,
-  #[account(mut)]
-  pub base_storage: Box<Account<'info, TokenAccount>>,
+  #[account(mut,
+    associated_token::mint = base_mint,
+    associated_token::authority = token_bonding,
+    associated_token::token_program = base_token_program)]
+  pub base_storage: Box<InterfaceAccount<'info, TokenAccount>>,
   pub token_program: Program<'info, Token>,
 }

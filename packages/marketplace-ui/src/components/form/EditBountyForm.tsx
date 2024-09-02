@@ -71,15 +71,13 @@ async function editBounty(
   const { instructions: metaInstrs, signers: metaSigners } =
     await tokenMetadataSdk.updateMetadataInstructions({
       metadata: await Metadata.getPDA(mintKey),
-      data: new DataV2({
+      data: ({
         // Max name len 32
         name: values.name.substring(0, 32),
         symbol: values.shortName.substring(0, 10),
         uri,
         sellerFeeBasisPoints: 0,
         creators: null,
-        collection: null,
-        uses: null,
       }),
     });
 

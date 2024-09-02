@@ -1,5 +1,5 @@
 import { Program, Provider } from "anchor-17";
-import { AnchorProvider } from "@project-serum/anchor";
+import { AnchorProvider } from "@coral-xyz/anchor";
 import { AccountInfo, PublicKey } from "@solana/web3.js";
 import {
   useAccount,

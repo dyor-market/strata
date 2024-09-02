@@ -108,14 +108,12 @@ async function createMarket(
       await getMintInfo(marketplaceSdk.provider, existingMint)
     ).decimals;
 
-    metadata = new DataV2({
+    metadata = ({
       name: values.name || "",
       symbol: values.symbol || "",
       uri: values.uri || "",
       sellerFeeBasisPoints: 0,
       creators: null,
-      collection: null,
-      uses: null,
     });
   } else {
     const uri = await marketplaceSdk.tokenMetadataSdk.uploadMetadata({
@@ -132,15 +130,13 @@ async function createMarket(
         },
       ],
     });
-    metadata = new DataV2({
+    metadata = ({
       // Max name len 32
       name: values.name!.substring(0, 32),
       symbol: "",
       uri,
       sellerFeeBasisPoints: 0,
       creators: null,
-      collection: null,
-      uses: null,
     });
   }
 

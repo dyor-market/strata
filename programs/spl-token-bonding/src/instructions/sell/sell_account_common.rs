@@ -10,7 +10,6 @@ pub struct SellCommonV0<'info> {
     mut,
     has_one = base_mint,
     has_one = target_mint,
-    has_one = base_storage,
     has_one = curve,
     has_one = sell_base_royalties,
     has_one = sell_target_royalties,
@@ -20,13 +19,16 @@ pub struct SellCommonV0<'info> {
   pub base_mint: Box<Account<'info, Mint>>,
   #[account(mut)]
   pub target_mint: Box<Account<'info, Mint>>,
-  #[account(mut)]
-  pub base_storage: Box<Account<'info, TokenAccount>>,
+  #[account(mut, 
+    associated_token::mint = base_mint,
+    associated_token::authority = token_bonding,
+    associated_token::token_program = base_token_program)]
+  pub base_storage: Box<InterfaceAccount<'info, TokenAccount>>,
   #[account(mut)]
   /// CHECK: Token account could have been closed. Royalties are not sent if the account has been closed, but we also don't want to fail to parse here
   pub sell_base_royalties: AccountInfo<'info>,
   #[account(mut)]
-  pub source: Box<Account<'info, TokenAccount>>,
+  pub source: Box<InterfaceAccount<'info, TokenAccount>>,
   pub source_authority: Signer<'info>,
   #[account(mut)]
   /// CHECK: Token account could have been closed. Royalties are not sent if the account has been closed, but we also don't want to fail to parse here

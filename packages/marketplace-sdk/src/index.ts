@@ -3,7 +3,7 @@ import {
   AnchorProvider,
   BorshAccountsCoder,
   Provider,
-} from "@project-serum/anchor";
+} from "@coral-xyz/anchor";
 import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
   NATIVE_MINT,
@@ -22,7 +22,6 @@ import {
   TimeDecayExponentialCurveConfig,
   toBN,
 } from "@strata-foundation/spl-token-bonding";
-import { SplTokenCollective } from "@strata-foundation/spl-token-collective";
 import {
   FungibleEntangler,
   ICreateFungibleEntanglerOutput,
@@ -76,7 +75,7 @@ interface ICreateMarketItemArgs {
   /**
    * The token metadata for the marketplace item
    */
-  metadata: DataV2;
+  metadata: any;
   /**
    * The quantity to stop selling at
    */
@@ -114,7 +113,7 @@ interface ICreateBountyArgs {
   /**
    * The token metadata for the marketplace item
    */
-  metadata: DataV2;
+  metadata: any;
 
   /**
    * The mint to base the sales off of
@@ -162,7 +161,7 @@ interface ICreateLiquidityBootstrapperArgs
   /**
    * The token metadata for the LBC item
    */
-  metadata?: DataV2;
+  metadata?: any;
 
   /**
    * The update authority on the metadata created. **Default:** authority
@@ -188,7 +187,7 @@ interface ICreateMetadataForBondingArgs {
   /**
    * The token metadata for the marketplace item
    */
-  metadata: DataV2;
+  metadata: any;
   /**
    * Optionally, use this keypair to create the target mint
    */
@@ -259,7 +258,7 @@ interface ICreateManualTokenArgs {
   mintKeypair?: Keypair;
   decimals: number;
   amount: number;
-  metadata: DataV2;
+  metadata: any;
 }
 
 export class MarketplaceSdk {
@@ -301,13 +300,11 @@ export class MarketplaceSdk {
   static async init(
     provider: AnchorProvider,
     splTokenBondingProgramId: PublicKey = SplTokenBonding.ID,
-    splTokenCollectiveProgramId: PublicKey = SplTokenCollective.ID,
     fungibleEntanglerProgramId: PublicKey = FungibleEntangler.ID
   ): Promise<MarketplaceSdk> {
     return new this(
       provider,
       await SplTokenBonding.init(provider, splTokenBondingProgramId),
-      await SplTokenCollective.init(provider, splTokenCollectiveProgramId),
       await FungibleEntangler.init(provider, fungibleEntanglerProgramId),
       await SplTokenMetadata.init(provider)
     );
@@ -316,7 +313,6 @@ export class MarketplaceSdk {
   constructor(
     readonly provider: AnchorProvider,
     readonly tokenBondingSdk: SplTokenBonding,
-    readonly tokenCollectiveSdk: SplTokenCollective,
     readonly fungibleEntanglerSdk: FungibleEntangler,
     readonly tokenMetadataSdk: SplTokenMetadata
   ) {}
@@ -442,24 +438,7 @@ export class MarketplaceSdk {
       tokenBonding
     ))!;
     let authority: PublicKey | null = null;
-    try {
-      const tokenRef = await this.tokenCollectiveSdk.getTokenRef(
-        tokenBondingAcct.reserveAuthority! as PublicKey
-      );
-
-      if (tokenRef) {
-        authority = tokenRef.owner;
-
-        const { instructions: i0, signers: s0 } =
-          await this.tokenCollectiveSdk.claimBondingAuthorityInstructions({
-            tokenBonding,
-          });
-        instructions.push(...i0);
-        signers.push(...s0);
-      }
-    } catch (e: any) {
-      // ignore
-    }
+   
 
     const reserveAmount = await this.tokenBondingSdk.getTokenAccountBalance(
       tokenBondingAcct.baseStorage
@@ -581,124 +560,8 @@ export class MarketplaceSdk {
     baseMint,
   }: {
     baseMint?: PublicKey;
-  }): Promise<GetBountyItem[]> {
-    const state = await this.tokenBondingSdk.getState();
-    if (baseMint?.equals(NATIVE_MINT)) {
-      baseMint = state!.wrappedSolMint;
-    }
-    const descriminator =
-      BorshAccountsCoder.accountDiscriminator("tokenBondingV0");
-    const filters = [
-      {
-        memcmp: {
-          offset: 0,
-          bytes: bs58.encode(
-            Buffer.concat([descriminator, baseMint?.toBuffer()].filter(truthy))
-          ),
-        },
-      },
-      {
-        // All royalties should be 0 and curve should be fixed and mint cap + purchase cap not defined
-        memcmp: {
-          offset:
-            descriminator.length +
-            32 + // base mint
-            32 + // target mint
-            33 + // general authority
-            33 + // reserve authority
-            1 + // curve authority
-            32 + // base storage
-            32 * 4, // royalties
-          bytes: bs58.encode(
-            Buffer.concat([
-              new u64(0).toBuffer(),
-              new u64(0).toBuffer(),
-              new PublicKey(MarketplaceSdk.FIXED_CURVE).toBuffer(),
-              Buffer.from(new Uint8Array([0, 0])),
-            ])
-          ),
-        },
-      },
-    ];
-    const mints = await this.provider.connection.getProgramAccounts(
-      this.tokenBondingSdk.programId,
-      {
-        // Just get the base and target mints
-        dataSlice: {
-          length: 64,
-          offset: descriminator.length,
-        },
-        filters,
-      }
-    );
-    const goLives = await this.provider.connection.getProgramAccounts(
-      this.tokenBondingSdk.programId,
-      {
-        // Just get the go lives
-        dataSlice: {
-          offset:
-            descriminator.length +
-            32 + // base mint
-            32 + // target mint
-            33 + // general authority
-            33 + // reserve authority
-            1 + // curve authority
-            32 + // base storage
-            32 * 4 + // royalties,
-            4 * 4 + // royalties amounts,
-            32 + // curve
-            1 + // Mint cap
-            1, // Purchase cap
-          length: 8,
-        },
-        filters,
-      }
-    );
-    const contributions = await this.provider.connection.getProgramAccounts(
-      this.tokenBondingSdk.programId,
-      {
-        // Just get the contributions
-        dataSlice: {
-          offset:
-            descriminator.length +
-            32 + // base mint
-            32 + // target mint
-            33 + // general authority
-            33 + // reserve authority
-            1 + // curve authority
-            32 + // base storage
-            32 * 4 + // royalties,
-            4 * 4 + // royalties amounts,
-            32 + // curve
-            1 + // Mint cap
-            1 + // Purchase cap
-            8 + // go live,
-            1 + // freeze buy,
-            8 + // created,
-            1 + // buy frozen
-            1 + // sell frozen
-            2 +
-            1 +
-            1 +
-            1 +
-            2, // seeds
-          length: 8,
-        },
-        filters,
-      }
-    );
-
-    return mints.map((mint, index) => {
-      const goLive = goLives[index];
-      const contribution = contributions[index];
-      return {
-        tokenBondingKey: mint.pubkey,
-        baseMint: new PublicKey(mint.account.data.slice(0, 32)),
-        targetMint: new PublicKey(mint.account.data.slice(32, 64)),
-        goLiveUnixTime: new BN(goLive.account.data, 10, "le"),
-        reserveBalanceFromBonding: new BN(contribution.account.data, 10, "le"),
-      };
-    });
+  }) {
+   
   }
 
   async createMetadataForBondingInstructions({
@@ -915,7 +778,9 @@ export class MarketplaceSdk {
   > {
     const curve =
       bondingArgs?.curve || new PublicKey(MarketplaceSdk.FIXED_CURVE);
-    const baseMintAcct = await getMintInfo(this.provider, baseMint);
+      // @ts-ignore
+    const baseMintAcct =           (await this.provider.connection.getParsedAccountInfo(baseMint)).value?.data.parsed.info.decimals
+;
 
     const instructions: TransactionInstruction[] = [];
     const signers: Signer[] = [];
@@ -1071,8 +936,9 @@ export class MarketplaceSdk {
       signers.push(...curveSigners);
       curve = outCurve;
     }
-
-    const baseMintAcct = await getMintInfo(this.provider, baseMint);
+// @ts-ignore
+    const baseMintAcct =           (await this.provider.connection.getParsedAccountInfo(baseMint)).value?.data.parsed.info.decimals
+;
 
     metadataUpdateAuthority = metadataUpdateAuthority || authority;
     const decimals =

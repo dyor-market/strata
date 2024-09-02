@@ -44,7 +44,8 @@ async function buy({
       throw new Error("Invalid slippage");
     }
     await tokenBondingSdk.buy({
-      tokenBonding,
+      tokenBonding,    baseMint: PublicKey.default,
+
       desiredTargetAmount: 1,
       expectedBaseAmount: maxPrice,
       slippage: 0,

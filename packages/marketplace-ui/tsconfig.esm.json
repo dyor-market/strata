@@ -1,9 +1,3 @@
-{
-  "extends": "../../tsconfig.esm.json",
-  "include": ["src"],
-  "compilerOptions": {
-    "outDir": "lib/esm",
-    "declarationDir": "lib/types",
-    "jsx": "react"
-  }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:7e0298b7871b9811bf9aa6dd160755dde26cc6e038d969bbbf2f56cfb8df474f
+size 172

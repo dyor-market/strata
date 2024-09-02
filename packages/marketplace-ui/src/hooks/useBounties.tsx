@@ -20,7 +20,7 @@ async function getBounties(
   baseMint: PublicKey | undefined
 ): Promise<GetBountyItem[] | undefined> {
   if (marketplaceSdk) {
-    return marketplaceSdk.getBounties({ baseMint });
+    return undefined
   }
 }
 

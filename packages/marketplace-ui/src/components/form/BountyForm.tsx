@@ -65,15 +65,13 @@ async function createBounty(
     targetMintKeypair,
     authority,
     metadataUpdateAuthority: marketplaceSdk.provider.wallet.publicKey,
-    metadata: new DataV2({
+    metadata: ({
       // Max name len 32
       name: values.name.substring(0, 32),
       symbol: values.shortName.substring(0, 10),
       uri,
       sellerFeeBasisPoints: 0,
       creators: null,
-      collection: null,
-      uses: null,
     }),
     baseMint: mint,
   });

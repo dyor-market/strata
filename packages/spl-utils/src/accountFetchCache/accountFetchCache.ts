@@ -127,36 +127,6 @@ export class AccountFetchCache {
         return self.oldGetAccountinfo!(publicKey, com);
       };
     }
-    connection.sendTransaction = async function overloadedSendTransaction(
-      transaction: Transaction,
-      signers: Array<Signer>,
-      options?: SendOptions
-    ) {
-      const result = await self.oldSendTransaction(transaction, signers, options);
-
-      this.confirmTransaction(result, "finalized")
-        .then(() => {
-          return self.requeryMissing(transaction.instructions);
-        })
-        .catch(console.error);
-      return result;
-    };
-
-    connection.sendRawTransaction = async function overloadedSendRawTransaction(
-      rawTransaction: Buffer | Uint8Array | Array<number>,
-      options?: SendOptions
-    ) {
-      const result = await self.oldSendRawTransaction(rawTransaction, options);
-      const instructions = Transaction.from(rawTransaction).instructions;
-
-      this.confirmTransaction(result, "finalized")
-        .then(() => {
-          return self.requeryMissing(instructions);
-        })
-        .catch(console.error);
-
-      return result;
-    };
   }
 
   async requeryMissing(instructions: TransactionInstruction[]) {
@@ -203,8 +173,6 @@ export class AccountFetchCache {
     if (this.oldGetAccountinfo) {
       this.connection.getAccountInfo = this.oldGetAccountinfo;
     }
-    this.connection.sendTransaction = this.oldSendTransaction;
-    this.connection.sendRawTransaction = this.oldSendRawTransaction;
     clearInterval(this.missingInterval);
   }
 

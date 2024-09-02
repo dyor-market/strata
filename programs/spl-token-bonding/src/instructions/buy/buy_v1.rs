@@ -16,7 +16,7 @@ pub struct BuyV1<'info> {
   )]
   pub state: Box<Account<'info, ProgramStateV0>>,
   #[account(mut)]
-  pub source: Box<Account<'info, TokenAccount>>,
+  pub source: Box<InterfaceAccount<'info, TokenAccount>>,
   pub source_authority: Signer<'info>,
 }
 

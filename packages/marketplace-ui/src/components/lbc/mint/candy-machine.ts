@@ -227,7 +227,8 @@ export const mintOneToken = async (
       throw new Error("Invalid slippage");
     }
     const { instructions: bondInstrs, signers: bondSigners } = await tokenBondingSdk.buyInstructions({
-      tokenBonding,
+      tokenBonding,    baseMint: PublicKey.default,
+
       desiredTargetAmount: 1,
       expectedBaseAmount: maxPrice,
       slippage: 0,

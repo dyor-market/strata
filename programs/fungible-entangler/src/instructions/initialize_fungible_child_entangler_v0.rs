@@ -48,7 +48,7 @@ pub struct InitializeFungibleChildEntanglerV0<'info> {
     token::mint = child_mint,
     token::authority = entangler,
   )]
-  pub child_storage: Box<Account<'info, TokenAccount>>,
+  pub child_storage: Box<InterfaceAccount<'info, TokenAccount>>,
   #[account(
     constraint = child_mint.is_initialized,
     constraint = child_mint.key() != parent_entangler.parent_mint

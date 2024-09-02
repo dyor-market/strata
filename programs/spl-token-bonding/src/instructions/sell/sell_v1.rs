@@ -17,7 +17,7 @@ pub struct SellV1<'info> {
   pub state: Box<Account<'info, ProgramStateV0>>,
 
   #[account(mut)]
-  pub destination: Box<Account<'info, TokenAccount>>,
+  pub destination: Box<InterfaceAccount<'info, TokenAccount>>,
 }
 
 pub fn handler(ctx: Context<SellV1>, args: SellV0Args) -> Result<()> {

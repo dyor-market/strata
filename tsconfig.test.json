@@ -1,24 +1,3 @@
-{
-  "compilerOptions": {
-    "sourceMap": true,
-    "declaration": true,
-    "declarationMap": true,
-    "allowSyntheticDefaultImports": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "composite": true,
-    "forceConsistentCasingInFileNames": true,
-    "isolatedModules": false,
-    "moduleResolution": "Node",
-    "skipLibCheck": true,
-    "baseUrl": ".",
-    "typeRoots": ["node_modules/@types"],
-    "strict": true,
-    "target": "es6",
-    "paths": {
-      "@/*": ["*"]
-    }
-  }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:8f51bd56ac42f19295aebae37979804ae505aebfd9cb3e644031db739f2d933b
+size 579

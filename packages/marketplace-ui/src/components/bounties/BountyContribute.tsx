@@ -115,12 +115,16 @@ export const BountyContribute = ({
             const quantity = Number(qty);
             if (isWithdraw && pricing) {
               await tokenBondingSdk?.sell({
+                baseMint: tokenBonding?.baseMint,
+
                 targetAmount: -pricing.buyWithBaseAmount(-quantity),
                 tokenBonding: tokenBonding?.publicKey!,
                 slippage: 0,
               });
             } else if (!isWithdraw) {
               await tokenBondingSdk?.buy({
+                baseMint: PublicKey.default,
+
                 baseAmount: quantity,
                 tokenBonding: tokenBonding?.publicKey!,
                 slippage: 0,

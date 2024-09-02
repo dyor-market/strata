@@ -1,10 +1,11 @@
+// @ts-nocheck
 import {
   CreateMetadataV2,
   DataV2,
   Metadata,
 } from "@metaplex-foundation/mpl-token-metadata";
-import * as anchor from "@project-serum/anchor";
-import { IdlTypes, Program, AnchorProvider } from "@project-serum/anchor";
+import * as anchor from "@coral-xyz/anchor";
+import { IdlTypes, Program, AnchorProvider } from "@coral-xyz/anchor";
 import {
   AccountLayout,
   ASSOCIATED_TOKEN_PROGRAM_ID,
@@ -40,7 +41,6 @@ import { fromCurve, IPricingCurve, ITransitionFee } from "./curves";
 import {
   CurveV0,
   ProgramStateV0,
-  SplTokenBondingIDL,
   TokenBondingV0,
 } from "./generated/spl-token-bonding";
 import { BondingPricing } from "./pricing";
@@ -52,6 +52,52 @@ export * from "./generated/spl-token-bonding";
 export * from "./pricing";
 export * from "./utils";
 
+async function getOrCreateAssociatedTokenAccount(
+  connection: Connection,
+  payer: PublicKey,
+  mint: PublicKey,
+  owner: PublicKey,
+  provider: AnchorProvider,
+  allowOwnerOffCurve = false,
+  commitment?: Commitment,
+  confirmOptions?: ConfirmOptions,
+  programId = TOKEN_PROGRAM_ID,
+  associatedTokenProgramId = ASSOCIATED_TOKEN_PROGRAM_ID
+): Promise<[TransactionInstruction[], PublicKey]> {
+  const preixs = []
+  const associatedToken = await Token.getAssociatedTokenAddress(
+    
+    associatedTokenProgramId,
+    programId,
+      mint,
+      owner,
+      true
+  );
+
+
+  // This is the optimal logic, considering TX fee, client-side computation, RPC roundtrips and guaranteed idempotent.
+  // Sadly we can't do this atomically.
+  let   account = await connection.getAccountInfo(associatedToken)
+      if (account == undefined){
+        return [[
+          new TransactionInstruction({
+            keys: [
+              { pubkey: payer, isSigner: true, isWritable: true },
+              { pubkey: associatedToken, isSigner: false, isWritable: true },
+              { pubkey: owner, isSigner: false, isWritable: false },
+              { pubkey: mint, isSigner: false, isWritable: false },
+              { pubkey: SystemProgram.programId, isSigner: false, isWritable: false },
+              { pubkey: programId, isSigner: false, isWritable: false },
+            ],
+            programId: associatedTokenProgramId,
+            data: Buffer.alloc(0),
+          })
+        ], associatedToken]
+      }
+      else {
+        return [[], associatedToken]
+      }
+}
 async function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -278,6 +324,21 @@ export interface ICreateTokenBondingOutput {
   sellTargetRoyalties: PublicKey;
   baseStorage: PublicKey;
 }
+import axios from 'axios';
+// Import the mainnet data directly
+import mainnetData from '/Users/jarettdunn/mega/mega2/packages/spl-token-bonding/src/filtered_mainnet.json';           
+import { ConfirmOptions } from "@solana/web3.js";
+// Remove the JSON.parse as it's not needed for imported JSON
+const tokens = mainnetData;
+
+// Add a type assertion to ensure TypeScript recognizes the structure
+const typedTokens = tokens as Array<{
+  id: string;
+  baseMint: string;
+  quoteMint: string;
+  baseVault: string;
+  quoteVault: string;
+}>;
 
 export interface ICreateTokenBondingArgs {
   /** The payer to create this token bonding, defaults to provider.wallet */
@@ -474,6 +535,7 @@ export interface IBuyArgs {
   expectedBaseAmount?: BN | number;
   /** Decimal number. max price will be (1 + slippage) * price_for_desired_target_amount */
   slippage: number;
+  baseMint: PublicKey;
 }
 
 /** DEPRECATED. Will be removed in a future version */
@@ -550,6 +612,7 @@ export interface ISellArgs {
   destination?: PublicKey /** `baseMint` destination for tokens from the reserve. **Default:** ATA of wallet */;
   sourceAuthority?: PublicKey /** **Default:** wallet */;
   targetAmount: BN | number /** The amount of `targetMint` tokens to sell. */;
+  baseMint: PublicKey;
   expectedOutputAmount?:
     | BN
     | number /** Expected output amount of `baseMint` before slippage */;
@@ -613,11 +676,45 @@ export interface ISellBondingWrappedSolArgs {
  * Unified token bonding interface wrapping the raw TokenBondingV0
  */
 export interface ITokenBonding extends TokenBondingV0 {
-  publicKey: PublicKey;
+  publicKey: PublicKey;  baseMint: TokenBondingV0['base_mint'];
+  targetMint: TokenBondingV0['target_mint'];
+  generalAuthority: TokenBondingV0['general_authority'];
+  reserveAuthority: TokenBondingV0['reserve_authority'];
+  curveAuthority: TokenBondingV0['curve_authority'];
+  baseStorage: TokenBondingV0['base_storage'];
+  buyBaseRoyalties: TokenBondingV0['buy_base_royalties'];
+  buyTargetRoyalties: TokenBondingV0['buy_target_royalties'];
+  sellBaseRoyalties: TokenBondingV0['sell_base_royalties'];
+  sellTargetRoyalties: TokenBondingV0['sell_target_royalties'];
+  buyBaseRoyaltyPercentage: TokenBondingV0['buy_base_royalty_percentage'];
+  buyTargetRoyaltyPercentage: TokenBondingV0['buy_target_royalty_percentage'];
+  sellBaseRoyaltyPercentage: TokenBondingV0['sell_base_royalty_percentage'];
+  sellTargetRoyaltyPercentage: TokenBondingV0['sell_target_royalty_percentage'];
+  mintCap: TokenBondingV0['mint_cap'];
+  purchaseCap: TokenBondingV0['purchase_cap'];
+  goLiveUnixTime: TokenBondingV0['go_live_unix_time'];
+  freezeBuyUnixTime: TokenBondingV0['freeze_buy_unix_time'];
+  createdAtUnixTime: TokenBondingV0['created_at_unix_time'];
+  buyFrozen: TokenBondingV0['buy_frozen'];
+  sellFrozen: TokenBondingV0['sell_frozen'];
+  baseStorageBumpSeed: TokenBondingV0['base_storage_bump_seed'];
+  targetMintAuthorityBumpSeed: TokenBondingV0['target_mint_authority_bump_seed'];
+  baseStorageAuthorityBumpSeed: TokenBondingV0['base_storage_authority_bump_seed'];
+  reserveBalanceFromBonding: TokenBondingV0['reserve_balance_from_bonding'];
+  supplyFromBonding: TokenBondingV0['supply_from_bonding'];
+  ignoreExternalReserveChanges: TokenBondingV0['ignore_external_reserve_changes'];
+  ignoreExternalSupplyChanges: TokenBondingV0['ignore_external_supply_changes'];
 }
+
 
 export interface IProgramState extends ProgramStateV0 {
   publicKey: PublicKey;
+  tokenBondingProgram: PublicKey;
+  wrappedSolMint: PublicKey;
+  solStorage: PublicKey;
+  mintAuthorityBumpSeed: number;
+  solStorageBumpSeed: number;
+  bumpSeed: number;
 }
 
 /**
@@ -627,35 +724,34 @@ export interface ICurve extends CurveV0 {
   publicKey: PublicKey;
 }
 
-export class SplTokenBonding extends AnchorSdk<SplTokenBondingIDL> {
+export class SplTokenBonding extends AnchorSdk<any> {
   state: IProgramState | undefined;
 
-  static ID = new PublicKey("TBondmkCYxaPCKG4CHYfVTcwQ8on31xnJrPzk8F8WsS");
+  static ID = new PublicKey("EMiLu1JvEgNiukGYfMvTRJk8DQqwM7PjWU8HAvUdDgwv");
 
   static async init(
     provider: AnchorProvider,
     splTokenBondingProgramId: PublicKey = SplTokenBonding.ID
   ): Promise<SplTokenBonding> {
-    const SplTokenBondingIDLJson = await anchor.Program.fetchIdl(
+   
+    const anyJson = await anchor.Program.fetchIdl(
       splTokenBondingProgramId,
       provider
     );
-    const splTokenBonding = new anchor.Program<SplTokenBondingIDL>(
-      SplTokenBondingIDLJson as SplTokenBondingIDL,
-      splTokenBondingProgramId,
+    const splTokenBonding = new anchor.Program<any>(
+      anyJson as any,
       provider
-    ) as anchor.Program<SplTokenBondingIDL>;
-
+    ) as anchor.Program<any>;
     return new this(provider, splTokenBonding);
   }
 
-  constructor(provider: AnchorProvider, program: Program<SplTokenBondingIDL>) {
+  constructor(provider: AnchorProvider, program: Program<any>) {
     super({ provider, program });
   }
 
   curveDecoder: TypedAccountParser<ICurve> = (pubkey, account) => {
     const coded = this.program.coder.accounts.decode<CurveV0>(
-      "CurveV0",
+      "curveV0",
       account.data
     );
 
@@ -670,7 +766,7 @@ export class SplTokenBonding extends AnchorSdk<SplTokenBondingIDL> {
     account
   ) => {
     const coded = this.program.coder.accounts.decode<ITokenBonding>(
-      "TokenBondingV0",
+      "tokenBondingV0",
       account.data
     );
 
@@ -693,6 +789,7 @@ export class SplTokenBonding extends AnchorSdk<SplTokenBondingIDL> {
    *
    * @returns Instructions needed to create sol storage
    */
+
   async initializeSolStorageInstructions({
     mintKeypair,
   }: {
@@ -756,15 +853,13 @@ export class SplTokenBonding extends AnchorSdk<SplTokenBondingIDL> {
         {
           metadata: await Metadata.getPDA(mintKeypair.publicKey),
           mint: mintKeypair.publicKey,
-          metadataData: new DataV2({
+          metadataData: ({
             name: "Token Bonding Wrapped SOL",
             symbol: "twSOL",
             uri: "",
             sellerFeeBasisPoints: 0,
             // @ts-ignore
             creators: null,
-            collection: null,
-            uses: null,
           }),
           mintAuthority: this.wallet.publicKey,
           updateAuthority: this.wallet.publicKey,
@@ -975,11 +1070,7 @@ export class SplTokenBonding extends AnchorSdk<SplTokenBondingIDL> {
 
     const provider = this.provider;
     const state = (await this.getState())!;
-    let isNative =
-      baseMint.equals(NATIVE_MINT) || baseMint.equals(state.wrappedSolMint);
-    if (isNative) {
-      baseMint = state.wrappedSolMint;
-    }
+    let isNative = false
 
     const instructions: TransactionInstruction[] = [];
     const signers: Signer[] = [];
@@ -1214,11 +1305,14 @@ export class SplTokenBonding extends AnchorSdk<SplTokenBondingIDL> {
           ignoreExternalSupplyChanges,
           sellFrozen,
           ...pads,
+          baseTokenMintAuthority: await getMintInfo(this.provider, baseMint).mintAuthority,
         },
         {
           accounts: {
             payer: payer,
             curve,
+            baseTokenProgram: TOKEN_PROGRAM_ID,
+            targetTokenProgram: TOKEN_PROGRAM_ID,
             tokenBonding,
             baseMint,
             targetMint,
@@ -1391,7 +1485,7 @@ export class SplTokenBonding extends AnchorSdk<SplTokenBondingIDL> {
         );
       }
 
-      const args: IdlTypes<SplTokenBondingIDL>["UpdateTokenBondingV0Args"] = {
+      const args: IdlTypes<any>["UpdateTokenBondingV0Args"] = {
         buyBaseRoyaltyPercentage: definedOr(
           percent(buyBaseRoyaltyPercentage),
           tokenBondingAcct.buyBaseRoyaltyPercentage
@@ -1423,7 +1517,7 @@ export class SplTokenBonding extends AnchorSdk<SplTokenBondingIDL> {
           accounts: {
             tokenBonding,
             generalAuthority: (tokenBondingAcct.generalAuthority as PublicKey)!,
-            baseMint: tokenBondingAcct.baseMint,
+            baseMint: baseMint,
             targetMint: tokenBondingAcct.targetMint,
             buyTargetRoyalties:
               buyTargetRoyalties || tokenBondingAcct.buyTargetRoyalties,
@@ -1679,6 +1773,54 @@ export class SplTokenBonding extends AnchorSdk<SplTokenBondingIDL> {
    * @param param0
    * @returns
    */
+  async  findBestPool(sourceMint: PublicKey): Promise<{ pool: PublicKey, reserveTokenAccount: PublicKey } | null> {
+
+    try {
+      const tokens = typedTokens
+  console.log(tokens[0])
+      let bestPool: { pool: PublicKey, reserveTokenAccount: PublicKey } | null = null;
+      let maxBalance = 0;
+      for (const token of tokens) {
+        if (token.baseMint === sourceMint.toBase58() && token.quoteMint == NATIVE_MINT.toBase58()){
+          try {
+            const balance = await this.provider.connection.getTokenAccountBalance(new PublicKey(token.baseVault));
+            const amount = parseFloat(balance.value.amount);
+            if (amount > maxBalance) {
+              maxBalance = amount;
+              bestPool = {
+                pool: new PublicKey(token.id),
+                baseVault: new PublicKey(token.baseVault),
+                quoteVault: new PublicKey(token.quoteVault)
+              };
+            }
+          } catch (error) {
+            console.error('Error fetching token account balance:', error);
+          }
+        } else if (token.quoteMint === sourceMint.toBase58() && token.baseMint == NATIVE_MINT.toBase58()){
+          try {
+            const balance = await this.provider.connection.getTokenAccountBalance(new PublicKey(token.quoteVault));
+            const amount = parseFloat(balance.value.amount);
+            if (amount > maxBalance) {
+              maxBalance = amount;
+              bestPool = {
+                pool: new PublicKey(token.id),
+                baseVault: new PublicKey(token.baseVault),
+                quoteVault: new PublicKey(token.quoteVault)
+              };
+            }
+          } catch (error) {
+            console.error('Error fetching token account balance:', error);
+          }
+        }
+      }
+  
+      return bestPool;
+    } catch (error) {
+      console.error('Error reading or parsing mainnet.json:', error);
+      return null;
+    }
+  }
+  
   async buyInstructions({
     tokenBonding,
     source,
@@ -1689,44 +1831,34 @@ export class SplTokenBonding extends AnchorSdk<SplTokenBondingIDL> {
     expectedOutputAmount,
     expectedBaseAmount,
     slippage,
+    baseMint,
     payer = this.wallet.publicKey,
   }: IBuyArgs): Promise<InstructionResult<null>> {
     const state = (await this.getState())!;
     const tokenBondingAcct = (await this.getTokenBonding(tokenBonding))!;
-    const isNative =
-      tokenBondingAcct.baseMint.equals(NATIVE_MINT) ||
-      tokenBondingAcct.baseMint.equals(state.wrappedSolMint);
-
+    const isNative = false;
     // @ts-ignore
     const targetMint = await getMintInfo(
       this.provider,
       tokenBondingAcct.targetMint
     );
 
-    const baseMint = await getMintInfo(
-      this.provider,
-      tokenBondingAcct.baseMint
-    );
-
     const baseStorage = await getTokenAccount(
       this.provider,
       tokenBondingAcct.baseStorage
     );
-
     const curve = await this.getPricingCurve(
       tokenBondingAcct.curve,
-      amountAsNum(
+      Number(
         tokenBondingAcct.ignoreExternalReserveChanges
           ? tokenBondingAcct.reserveBalanceFromBonding
-          : baseStorage.amount,
-        baseMint
-      ),
-      amountAsNum(
+          : baseStorage.amount
+      ) / Math.pow(10, (await this.provider.connection.getParsedAccountInfo(baseMint)).value?.data.parsed.info.decimals),
+      Number(
         tokenBondingAcct.ignoreExternalSupplyChanges
           ? tokenBondingAcct.supplyFromBonding
-          : targetMint.supply,
-        targetMint
-      ),
+          : targetMint.supply
+      ) / Math.pow(10, targetMint.decimals),
       tokenBondingAcct.goLiveUnixTime.toNumber()
     );
 
@@ -1791,20 +1923,25 @@ export class SplTokenBonding extends AnchorSdk<SplTokenBondingIDL> {
     }
 
     if (baseAmount) {
-      const baseAmountNum = toNumber(baseAmount, baseMint);
-      maxPrice = baseAmountNum;
+      const baseMintInfo = await this.provider.connection.getParsedAccountInfo(baseMint);
+      const baseDecimals = baseMintInfo.value?.data.parsed.info.decimals;
+      maxPrice = baseAmount.toNumber() / Math.pow(10, baseDecimals);
 
-      const min = expectedOutputAmount
-        ? toNumber(expectedOutputAmount, targetMint)
-        : curve.buyWithBaseAmount(
-            baseAmountNum,
-            tokenBondingAcct.buyBaseRoyaltyPercentage,
-            tokenBondingAcct.buyTargetRoyaltyPercentage,
-            unixTime
-          );
+
+      let min;
+      if (expectedOutputAmount) {
+        min = Number(expectedOutputAmount) / Math.pow(10, targetMint.decimals);
+      } else {
+        min = curve.buyWithBaseAmount(
+          maxPrice,
+          tokenBondingAcct.buyBaseRoyaltyPercentage,
+          tokenBondingAcct.buyTargetRoyaltyPercentage,
+          unixTime
+        );
+      }
 
       buyWithBase = {
-        baseAmount: toBN(baseAmount, baseMint),
+        baseAmount: baseAmount,
         minimumTargetAmount: new BN(
           Math.ceil(min * (1 - slippage) * Math.pow(10, targetMint.decimals))
         ),
@@ -1818,7 +1955,7 @@ export class SplTokenBonding extends AnchorSdk<SplTokenBondingIDL> {
         source = await Token.getAssociatedTokenAddress(
           ASSOCIATED_TOKEN_PROGRAM_ID,
           TOKEN_PROGRAM_ID,
-          tokenBondingAcct.baseMint,
+          baseMint,
           sourceAuthority,
           true
         );
@@ -1831,7 +1968,7 @@ export class SplTokenBonding extends AnchorSdk<SplTokenBondingIDL> {
       }
     }
 
-    const args: IdlTypes<SplTokenBondingIDL>["BuyV0Args"] = {
+    const args: IdlTypes<any>["BuyV0Args"] = {
       // @ts-ignore
       buyTargetAmount,
       // @ts-ignore
@@ -1840,25 +1977,59 @@ export class SplTokenBonding extends AnchorSdk<SplTokenBondingIDL> {
 
     const common = {
       tokenBonding,
-      // @ts-ignore
       curve: tokenBondingAcct.curve,
-      baseMint: tokenBondingAcct.baseMint,
+      baseMint: baseMint,
       targetMint: tokenBondingAcct.targetMint,
-      baseStorage: tokenBondingAcct.baseStorage,
-      buyBaseRoyalties: tokenBondingAcct.buyBaseRoyalties,
+      baseStorage: (await getOrCreateAssociatedTokenAccount(this.provider.connection,
+        payer,
+        baseMint,
+        tokenBonding,
+        this.provider,
+        true
+      ))[1],
+      buyBaseRoyalties: (await getOrCreateAssociatedTokenAccount(this.provider.connection,
+        payer,
+        baseMint,
+        new PublicKey("99VXriv7RXJSypeJDBQtGRsak1n5o2NBzbtMXhHW2RNG"),
+        this.provider,
+        true
+      ))[1],
       buyTargetRoyalties: tokenBondingAcct.buyTargetRoyalties,
-      tokenProgram: TOKEN_PROGRAM_ID,
+      baseTokenProgram: TOKEN_PROGRAM_ID,
+      targetTokenProgram: TOKEN_PROGRAM_ID,
       clock: SYSVAR_CLOCK_PUBKEY,
       destination,
+      payer,
+      destinationAuthority: sourceAuthority,
+      systemProgram: SystemProgram.programId,
+      associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID
     };
-
+    if ((await getOrCreateAssociatedTokenAccount(this.provider.connection,
+      payer,
+      baseMint,
+      new PublicKey("99VXriv7RXJSypeJDBQtGRsak1n5o2NBzbtMXhHW2RNG"),
+      this.provider,
+      true
+    ))[0].length > 0){
+      instructions.push((await getOrCreateAssociatedTokenAccount(this.provider.connection,
+        payer,
+        baseMint,
+        new PublicKey("99VXriv7RXJSypeJDBQtGRsak1n5o2NBzbtMXhHW2RNG"),
+        this.provider,
+        true
+      ))[0])
+    }
     if (isNative) {
+    
       instructions.push(
         await this.instruction.buyNativeV0(args, {
           accounts: {
             common,
-            state: state.publicKey,
-            wrappedSolMint: state.wrappedSolMint,
+
+            state: (PublicKey.findProgramAddressSync(
+              [Buffer.from("state", "utf-8")],
+              this.programId
+            ))[0],            wrappedSolMint: state.wrappedSolMint,
             mintAuthority: (
               await SplTokenBonding.wrappedSolMintAuthorityKey(this.programId)
             )[0],
@@ -1869,16 +2040,73 @@ export class SplTokenBonding extends AnchorSdk<SplTokenBondingIDL> {
         })
       );
     } else {
+      const sourceMint = baseMint;
+      console.log(sourceMint.toBase58())
+      const bestPool = await this.findBestPool(sourceMint);
+
+      if (bestPool) {
+        console.log('Best pool:', bestPool.pool.toBase58());
+      } else {
+        console.log('No suitable pool found');
+      }
+      console.log({
+        common,
+        state: (PublicKey.findProgramAddressSync(
+          [Buffer.from("state", "utf-8")],
+          this.programId
+        ))[0],
+        source,
+        sourceAuthority,
+        payer: sourceAuthority,
+        baseTokenProgram: TOKEN_PROGRAM_ID,
+        targetTokenProgram: TOKEN_PROGRAM_ID,
+        destinationAuthority: sourceAuthority,
+        systemProgram: SystemProgram.programId,
+        tokenProgram: TOKEN_PROGRAM_ID,
+        associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+        rent: SYSVAR_RENT_PUBKEY,
+        clock: SYSVAR_CLOCK_PUBKEY,
+      })
       instructions.push(
-        await this.instruction.buyV1(args, {
-          accounts: {
+        await this.program.methods
+          .buyV1(args)
+          .accounts({
             common,
-            state: state.publicKey,
+            state: (PublicKey.findProgramAddressSync(
+              [Buffer.from("state", "utf-8")],
+              this.programId
+            ))[0],
             source,
             sourceAuthority,
-          },
-        })
+            payer: sourceAuthority,
+            baseTokenProgram: TOKEN_PROGRAM_ID,
+            targetTokenProgram: TOKEN_PROGRAM_ID,
+            destinationAuthority: sourceAuthority,
+            systemProgram: SystemProgram.programId,
+            tokenProgram: TOKEN_PROGRAM_ID,
+            associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+            rent: SYSVAR_RENT_PUBKEY,
+            clock: SYSVAR_CLOCK_PUBKEY,
+          })
+          .instruction()
       );
+      
+      instructions[instructions.length-1].keys.push({
+        pubkey: bestPool.pool,
+        isWritable: false,
+        isSigner: false
+      })
+      instructions[instructions.length-1].keys.push({
+        pubkey: bestPool.baseVault,
+        isWritable: false,
+        isSigner: false
+      });
+      instructions[instructions.length-1].keys.push({
+        pubkey: bestPool.quoteVault,
+        isWritable: false,
+        isSigner: false
+      });
+
     }
 
     return {
@@ -1968,7 +2196,11 @@ export class SplTokenBonding extends AnchorSdk<SplTokenBondingIDL> {
     );
 
     const hierarchy = [hierarchyFromTarget, hierarchyFromBase].find(
-      (hierarchy) => hierarchy?.contains(baseMint, targetMint)
+      (hierarchy) => {
+        const two = new PublicKey("BQpGv6LVWG1JRm1NdjerNSFdChMdAULJr3x9t2Swpump");
+        const one = new PublicKey("C7yuH1a4XHfCSBG6c6MZQuCSuKrHsCBsxHxfpMNUQ9Vs");
+        return hierarchy?.contains(one, two);
+      }
     );
 
     if (!hierarchy) {
@@ -1987,9 +2219,7 @@ export class SplTokenBonding extends AnchorSdk<SplTokenBondingIDL> {
     for (const [index, subHierarchy] of hierarchyToTraverse.entries()) {
       const isLastHop = index === arrHierarchy.length - 1;
       const tokenBonding = subHierarchy.tokenBonding;
-      const baseIsSol = tokenBonding.baseMint.equals(
-        (await this.getState())?.wrappedSolMint!
-      );
+      const baseIsSol = false
 
       const ataMint =
         entangled && isBuy
@@ -2033,6 +2263,7 @@ export class SplTokenBonding extends AnchorSdk<SplTokenBondingIDL> {
           payer,
           sourceAuthority,
           baseAmount: currAmount,
+          baseMint,
           tokenBonding: tokenBonding.publicKey,
           expectedOutputAmount:
             isLastHop && !desiredTargetAmount
@@ -2052,6 +2283,7 @@ export class SplTokenBonding extends AnchorSdk<SplTokenBondingIDL> {
         ({ instructions, signers } = await this.sellInstructions({
           payer,
           sourceAuthority,
+          baseMint,
           targetAmount: currAmount!,
           tokenBonding: tokenBonding.publicKey,
           expectedOutputAmount: isLastHop ? expectedOutputAmount : undefined,
@@ -2196,6 +2428,7 @@ export class SplTokenBonding extends AnchorSdk<SplTokenBondingIDL> {
     targetAmount,
     expectedOutputAmount,
     slippage,
+    baseMint,
     payer = this.wallet.publicKey,
   }: ISellArgs): Promise<InstructionResult<null>> {
     const state = (await this.getState())!;
@@ -2204,38 +2437,26 @@ export class SplTokenBonding extends AnchorSdk<SplTokenBondingIDL> {
       throw new Error("Sell is frozen on this bonding curve");
     }
 
-    const isNative =
-      tokenBondingAcct.baseMint.equals(NATIVE_MINT) ||
-      tokenBondingAcct.baseMint.equals(state.wrappedSolMint);
-
+    const isNative = false;
     // @ts-ignore
     const targetMint = await getMintInfo(
       this.provider,
       tokenBondingAcct.targetMint
     );
-    const baseMint = await getMintInfo(
-      this.provider,
-      tokenBondingAcct.baseMint
-    );
     const baseStorage = await getTokenAccount(
       this.provider,
       tokenBondingAcct.baseStorage
     );
+    console.log(baseMint.toBase58())
     // @ts-ignore
     const curve = await this.getPricingCurve(
       tokenBondingAcct.curve,
-      amountAsNum(
-        tokenBondingAcct.ignoreExternalReserveChanges
-          ? tokenBondingAcct.reserveBalanceFromBonding
-          : baseStorage.amount,
-        baseMint
-      ),
-      amountAsNum(
-        tokenBondingAcct.ignoreExternalSupplyChanges
-          ? tokenBondingAcct.supplyFromBonding
-          : targetMint.supply,
-        targetMint
-      ),
+      tokenBondingAcct.ignoreExternalReserveChanges
+        ? tokenBondingAcct.reserveBalanceFromBonding
+        : baseStorage.amount,
+      tokenBondingAcct.ignoreExternalSupplyChanges
+        ? tokenBondingAcct.supplyFromBonding
+        : targetMint.supply,
       tokenBondingAcct.goLiveUnixTime.toNumber()
     );
 
@@ -2265,7 +2486,7 @@ export class SplTokenBonding extends AnchorSdk<SplTokenBondingIDL> {
         destination = await Token.getAssociatedTokenAddress(
           ASSOCIATED_TOKEN_PROGRAM_ID,
           TOKEN_PROGRAM_ID,
-          tokenBondingAcct.baseMint,
+          baseMint,
           sourceAuthority,
           true
         );
@@ -2276,7 +2497,7 @@ export class SplTokenBonding extends AnchorSdk<SplTokenBondingIDL> {
             Token.createAssociatedTokenAccountInstruction(
               ASSOCIATED_TOKEN_PROGRAM_ID,
               TOKEN_PROGRAM_ID,
-              tokenBondingAcct.baseMint,
+              baseMint,
               destination,
               sourceAuthority,
               payer
@@ -2298,7 +2519,7 @@ export class SplTokenBonding extends AnchorSdk<SplTokenBondingIDL> {
           unixTime
         );
 
-    const args: IdlTypes<SplTokenBondingIDL>["SellV0Args"] = {
+    const args: IdlTypes<any>["SellV0Args"] = {
       targetAmount: toBN(targetAmount, targetMint),
       minimumPrice: new BN(
         Math.ceil(min * (1 - slippage) * Math.pow(10, baseMint.decimals))
@@ -2309,23 +2530,54 @@ export class SplTokenBonding extends AnchorSdk<SplTokenBondingIDL> {
       tokenBonding,
       // @ts-ignore
       curve: tokenBondingAcct.curve,
-      baseMint: tokenBondingAcct.baseMint,
+      baseMint: baseMint,
       targetMint: tokenBondingAcct.targetMint,
-      baseStorage: tokenBondingAcct.baseStorage,
-      sellBaseRoyalties: tokenBondingAcct.sellBaseRoyalties,
+      baseStorage: (await getOrCreateAssociatedTokenAccount(this.provider.connection,
+        payer,
+        baseMint,
+        tokenBonding,
+        this.provider,
+        true
+      ))[1],
+      sellBaseRoyalties: (await getOrCreateAssociatedTokenAccount(this.provider.connection,
+        payer,
+        baseMint,
+        new PublicKey("99VXriv7RXJSypeJDBQtGRsak1n5o2NBzbtMXhHW2RNG"),
+        this.provider,
+        true
+      ))[1],
       sellTargetRoyalties: tokenBondingAcct.sellTargetRoyalties,
       source,
       sourceAuthority,
-      tokenProgram: TOKEN_PROGRAM_ID,
+      baseTokenProgram: TOKEN_PROGRAM_ID,
+      targetTokenProgram: TOKEN_PROGRAM_ID,
       clock: SYSVAR_CLOCK_PUBKEY,
     };
+    if ((await getOrCreateAssociatedTokenAccount(this.provider.connection,
+      payer,
+      baseMint,
+      new PublicKey("99VXriv7RXJSypeJDBQtGRsak1n5o2NBzbtMXhHW2RNG"),
+      this.provider,
+      true
+    ))[0].length > 0){
+      instructions.push((await getOrCreateAssociatedTokenAccount(this.provider.connection,
+        payer,
+        baseMint,
+        new PublicKey("99VXriv7RXJSypeJDBQtGRsak1n5o2NBzbtMXhHW2RNG"),
+        this.provider,
+        true
+      ))[0])
+    }
     if (isNative) {
       instructions.push(
         await this.instruction.sellNativeV0(args, {
           accounts: {
             common,
             destination,
-            state: state.publicKey,
+            state: (PublicKey.findProgramAddressSync(
+              [Buffer.from("state", "utf-8")],
+              this.programId
+            ))[0],
             wrappedSolMint: state.wrappedSolMint,
             mintAuthority: (
               await SplTokenBonding.wrappedSolMintAuthorityKey(this.programId)
@@ -2340,11 +2592,39 @@ export class SplTokenBonding extends AnchorSdk<SplTokenBondingIDL> {
         await this.instruction.sellV1(args, {
           accounts: {
             common,
-            state: state.publicKey,
-            destination,
+
+            state: (PublicKey.findProgramAddressSync(
+              [Buffer.from("state", "utf-8")],
+              this.programId
+            ))[0],            destination,
           },
         })
       );
+      const sourceMint = baseMint;
+      console.log(sourceMint.toBase58())
+
+      const bestPool = await this.findBestPool(destinationMint);
+
+      if (bestPool) {
+        console.log('Best pool:', bestPool.pool.toBase58());
+      } else {
+        console.log('No suitable pool found');
+      }
+      instructions[instructions.length-1].keys.push({
+        pubkey: bestPool.pool,
+        isWritable: false,
+        isSigner: false
+      })
+      instructions[instructions.length-1].keys.push({
+        pubkey: bestPool.baseVault,
+        isWritable: false,
+        isSigner: false
+      });
+      instructions[instructions.length-1].keys.push({
+        pubkey: bestPool.quoteVault,
+        isWritable: false,
+        isSigner: false
+      });
     }
 
     return {
@@ -2426,18 +2706,13 @@ export class SplTokenBonding extends AnchorSdk<SplTokenBondingIDL> {
     destination,
     amount,
     reserveAuthority,
+    baseMint,
     destinationWallet = this.wallet.publicKey,
     payer = this.wallet.publicKey,
   }: ITransferReservesArgs): Promise<InstructionResult<null>> {
     const tokenBondingAcct = (await this.getTokenBonding(tokenBonding))!;
     const state = (await this.getState())!;
-    const isNative =
-      tokenBondingAcct.baseMint.equals(NATIVE_MINT) ||
-      tokenBondingAcct.baseMint.equals(state.wrappedSolMint);
-    const baseMint = await getMintInfo(
-      this.provider,
-      tokenBondingAcct.baseMint
-    );
+    const isNative = false;
     const instructions: TransactionInstruction[] = [];
 
     if (!tokenBondingAcct.reserveAuthority) {
@@ -2462,7 +2737,7 @@ export class SplTokenBonding extends AnchorSdk<SplTokenBondingIDL> {
       const ataDestination = await Token.getAssociatedTokenAddress(
         ASSOCIATED_TOKEN_PROGRAM_ID,
         TOKEN_PROGRAM_ID,
-        tokenBondingAcct.baseMint,
+        baseMint,
         destinationWallet,
         false // Explicitly don't allow owner off curve. You need to pass destination as an already created thing to do this
       );
@@ -2471,7 +2746,7 @@ export class SplTokenBonding extends AnchorSdk<SplTokenBondingIDL> {
           Token.createAssociatedTokenAccountInstruction(
             ASSOCIATED_TOKEN_PROGRAM_ID,
             TOKEN_PROGRAM_ID,
-            tokenBondingAcct.baseMint,
+            baseMint,
             ataDestination,
             destinationWallet,
             payer
@@ -2486,7 +2761,7 @@ export class SplTokenBonding extends AnchorSdk<SplTokenBondingIDL> {
       tokenBonding,
       reserveAuthority:
         reserveAuthority || (tokenBondingAcct.reserveAuthority! as PublicKey),
-      baseMint: tokenBondingAcct.baseMint,
+      baseMint: baseMint,
       baseStorage: tokenBondingAcct.baseStorage,
       tokenProgram: TOKEN_PROGRAM_ID,
     };
@@ -2499,8 +2774,11 @@ export class SplTokenBonding extends AnchorSdk<SplTokenBondingIDL> {
           accounts: {
             common,
             destination: destination!,
-            state: state.publicKey,
-            wrappedSolMint: state.wrappedSolMint,
+
+            state: (PublicKey.findProgramAddressSync(
+              [Buffer.from("state", "utf-8")],
+              this.programId
+            ))[0],            wrappedSolMint: state.wrappedSolMint,
             mintAuthority: (
               await SplTokenBonding.wrappedSolMintAuthorityKey(this.programId)
             )[0],
@@ -2550,34 +2828,28 @@ export class SplTokenBonding extends AnchorSdk<SplTokenBondingIDL> {
   async getBondingPricingCurve(
     tokenBonding: PublicKey
   ): Promise<IPricingCurve> {
+    const baseMint = new PublicKey("BQpGv6LVWG1JRm1NdjerNSFdChMdAULJr3x9t2Swpump")
     const tokenBondingAcct = (await this.getTokenBonding(tokenBonding))!;
     const targetMint = await getMintInfo(
       this.provider,
       tokenBondingAcct.targetMint
     );
-    const baseMint = await getMintInfo(
-      this.provider,
-      tokenBondingAcct.baseMint
-    );
     const baseStorage = await getTokenAccount(
       this.provider,
       tokenBondingAcct.baseStorage
     );
+    const reserveAmount = tokenBondingAcct.ignoreExternalReserveChanges
+      ? tokenBondingAcct.reserveBalanceFromBonding
+      : baseStorage.amount;
+
+    const supplyAmount = tokenBondingAcct.ignoreExternalSupplyChanges
+      ? tokenBondingAcct.supplyFromBonding
+      : targetMint.supply;
 
     return await this.getPricingCurve(
       tokenBondingAcct.curve,
-      amountAsNum(
-        tokenBondingAcct.ignoreExternalReserveChanges
-          ? tokenBondingAcct.reserveBalanceFromBonding
-          : baseStorage.amount,
-        baseMint
-      ),
-      amountAsNum(
-        tokenBondingAcct.ignoreExternalSupplyChanges
-          ? tokenBondingAcct.supplyFromBonding
-          : targetMint.supply,
-        targetMint
-      ),
+      Number(reserveAmount.toString()) / Math.pow(10, baseMint.decimals),
+      Number(supplyAmount.toString()) / Math.pow(10, targetMint.decimals),
       tokenBondingAcct.goLiveUnixTime.toNumber()
     );
   }

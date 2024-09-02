@@ -4,7 +4,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { useStrataSdks } from "./useStrataSdks";
 import { ISwapArgs, ITokenBonding, IPreInstructionArgs, IPostInstructionArgs } from "@strata-foundation/spl-token-bonding";
 import { InstructionResult } from "@strata-foundation/spl-utils";
-import { BN } from "@project-serum/anchor";
+import { BN } from "@coral-xyz/anchor";
 
 export type SwapArgs = {
   preInstructions?: (args: IPreInstructionArgs) => Promise<InstructionResult<null>>; // instructions executed before swap instructions

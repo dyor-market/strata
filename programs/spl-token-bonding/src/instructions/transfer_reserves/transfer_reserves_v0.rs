@@ -9,7 +9,7 @@ use anchor_spl::token::{self, TokenAccount, Transfer};
 pub struct TransferReservesV0<'info> {
   pub common: TransferReservesV0Common<'info>,
   #[account(mut)]
-  pub destination: Box<Account<'info, TokenAccount>>,
+  pub destination: Box<InterfaceAccount<'info, TokenAccount>>,
 }
 
 pub fn handler(ctx: Context<TransferReservesV0>, args: TransferReservesV0Args) -> Result<()> {

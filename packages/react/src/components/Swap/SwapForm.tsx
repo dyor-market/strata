@@ -57,8 +57,6 @@ export interface ISwapFormValues {
 const validationSchema = yup
   .object({
     topAmount: yup.number().required().moreThan(0),
-    bottomAmount: yup.number().required().moreThan(0),
-    slippage: yup.number().required().moreThan(0),
   })
   .required();
 
@@ -145,7 +143,7 @@ export const SwapForm = ({
   isBuying,
   goLiveDate,
   numRemaining,
-  showAttribution = true,
+  showAttribution = false,
   swapBaseWithTargetEnabled = true,
 }: ISwapFormProps) => {
   const formRef = useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -587,141 +585,140 @@ export const SwapForm = ({
             </Flex>
             {numRemaining && (
               <Flex justify="space-between" alignItems="center">
-                <Text>Remaining</Text>
-                <Flex>
-                  {numRemaining} / {mintCap}
-                </Flex>
+              <Text>Remaining</Text>
+              <Flex>
+                {numRemaining} / {mintCap}
               </Flex>
-            )}
-            {base &&
-              target &&
-              pricing?.hierarchy
-                .path(base.publicKey, target.publicKey)
-                .map((h: BondingHierarchy, idx: number) => (
-                  <Royalties
-                    key={`royalties-${idx}`}
-                    formRef={formRef}
-                    tokenBonding={h.tokenBonding}
-                    isBuying={!!isBuying}
-                  />
-                ))}
-            {(extraTransactionInfo || []).map((i) => (
-              <TransactionInfo formRef={formRef} {...i} key={i.name} />
-            ))}
-          </VStack>
-          <Box position="relative">
-            <ScaleFade
-              initialScale={0.9}
-              in={
+            </Flex>
+          )}
+          {base &&
+            target &&
+            pricing?.hierarchy
+              .path(base.publicKey, target.publicKey)
+              .map((h: BondingHierarchy, idx: number) => (
+                <Royalties
+                  key={`royalties-${idx}`}
+                  formRef={formRef}
+                  tokenBonding={h.tokenBonding}
+                  isBuying={!!isBuying}
+                />
+              ))}
+          {(extraTransactionInfo || []).map((i) => (
+            <TransactionInfo formRef={formRef} {...i} key={i.name} />
+          ))}
+        </VStack>
+        <Box position="relative">
+          <ScaleFade
+            initialScale={0.9}
+            in={
+              !hasBaseAmount ||
+              moreThanSpendCap ||
+              notLive ||
+              insufficientLiq ||
+              passedMintCap
+            }
+          >
+            <Center
+              bgColor="gray.500"
+              rounded="md"
+              paddingY={2}
+              color="white"
+              w="full"
+              position="absolute"
+              top={-10}
+              fontSize="sm"
+            >
+              {passedMintCap && (
+                <Text>
+                  {(numRemaining || 0) > 0
+                    ? `Only ${numRemaining} left`
+                    : "Sold Out"}
+                </Text>
+              )}
+              {moreThanSpendCap && (
+                <Text>
+                  You cannot buy more than {spendCap} {base.ticker} at a time.
+                </Text>
+              )}
+              {notLive && (
+                <Text>
+                  Goes live at {goLiveDate && goLiveDate.toLocaleString()}
+                </Text>
+              )}
+              {!hasBaseAmount && (
+                <Text>
+                  Insufficient funds for this trade.{" "}
+                  <Text as="u">
+                    <Link
+                      color="primary.100"
+                      _hover={{ color: "primary.200" }}
+                      onClick={handleBuyBase}
+                    >
+                      {`Buy more now.`}
+                    </Link>
+                  </Text>
+                </Text>
+              )}
+              {insufficientLiq && hasBaseAmount && (
+                <Text>Insufficient Liquidity for this trade.</Text>
+              )}
+            </Center>
+          </ScaleFade>
+          {!connected && (
+            <Button
+              w="full"
+              colorScheme="primary"
+              size="lg"
+              onClick={onConnectWallet}
+            >
+              Connect Wallet
+            </Button>
+          )}
+          {connected && (
+            <Button
+              isDisabled={
+                !connected ||
                 !hasBaseAmount ||
                 moreThanSpendCap ||
                 notLive ||
                 insufficientLiq ||
                 passedMintCap
               }
+              w="full"
+              colorScheme="primary"
+              size="lg"
+              type="submit"
+              isLoading={awaitingApproval || isSubmitting}
+              loadingText={
+                awaitingApproval ? "Awaiting Approval" : "Swapping"
+              }
             >
-              <Center
-                bgColor="gray.500"
-                rounded="md"
-                paddingY={2}
-                color="white"
-                w="full"
-                position="absolute"
-                top={-10}
-                fontSize="sm"
-              >
-                {passedMintCap && (
-                  <Text>
-                    {(numRemaining || 0) > 0
-                      ? `Only ${numRemaining} left`
-                      : "Sold Out"}
-                  </Text>
-                )}
-                {moreThanSpendCap && (
-                  <Text>
-                    You cannot buy more than {spendCap} {base.ticker} at a time.
-                  </Text>
-                )}
-                {notLive && (
-                  <Text>
-                    Goes live at {goLiveDate && goLiveDate.toLocaleString()}
-                  </Text>
-                )}
-                {!hasBaseAmount && (
-                  <Text>
-                    Insufficient funds for this trade.{" "}
-                    <Text as="u">
-                      <Link
-                        color="primary.100"
-                        _hover={{ color: "primary.200" }}
-                        onClick={handleBuyBase}
-                      >
-                        {`Buy more now.`}
-                      </Link>
-                    </Text>
-                  </Text>
-                )}
-                {/* Make sure this doesn't render at the same time as the above insufficient funds */}
-                {insufficientLiq && hasBaseAmount && (
-                  <Text>Insufficient Liqidity for this trade.</Text>
-                )}
-              </Center>
-            </ScaleFade>
-            {!connected && (
-              <Button
-                w="full"
-                colorScheme="primary"
-                size="lg"
-                onClick={onConnectWallet}
-              >
-                Connect Wallet
-              </Button>
-            )}
-            {connected && (
-              <Button
-                isDisabled={
-                  !connected ||
-                  !hasBaseAmount ||
-                  moreThanSpendCap ||
-                  notLive ||
-                  insufficientLiq ||
-                  passedMintCap
-                }
-                w="full"
-                colorScheme="primary"
-                size="lg"
-                type="submit"
-                isLoading={awaitingApproval || isSubmitting}
-                loadingText={
-                  awaitingApproval ? "Awaiting Approval" : "Swapping"
-                }
-              >
-                Trade
-              </Button>
-            )}
-          </Box>
-          {showAttribution && (
-            <Center>
-              <HStack spacing={1} fontSize="14px">
-                <Text color={attColor}>Powered by</Text>
-                <Link
-                  color="primary.500"
-                  fontWeight="medium"
-                  href="https://strataprotocol.com"
-                >
-                  Strata
-                </Link>
-              </HStack>
-            </Center>
+              Trade
+            </Button>
           )}
-        </VStack>
-      </form>
-    </Box>
-  );
+        </Box>
+        {showAttribution && (
+          <Center>
+            <HStack spacing={1} fontSize="14px">
+              <Text color={attColor}>Powered by</Text>
+              <Link
+                color="primary.500"
+                fontWeight="medium"
+                href="https://strataprotocol.com"
+              >
+                Strata
+              </Link>
+            </HStack>
+          </Center>
+        )}
+      </VStack>
+    </form>
+  </Box>
+);
 };
 
 export const MemodSwapForm = React.memo(SwapForm);
 
 function getStep(arg0: number): string {
-  return arg0 == 0 ? "1" : "0." + "0".repeat(Math.abs(arg0) - 1) + "1";
+return arg0 == 0 ? "1" : "0." + "0".repeat(Math.abs(arg0) - 1) + "1";
 }

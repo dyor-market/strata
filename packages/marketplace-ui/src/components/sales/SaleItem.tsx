@@ -46,6 +46,8 @@ async function buy(
   quantity: number
 ): Promise<void> {
   await tokenBondingSdk.buy({
+    baseMint: PublicKey.default,
+
     tokenBonding,
     desiredTargetAmount: quantity,
     slippage: 0.05,

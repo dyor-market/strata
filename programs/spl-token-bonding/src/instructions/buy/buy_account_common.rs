@@ -21,12 +21,12 @@ pub struct BuyCommonV0<'info> {
   #[account(mut)]
   pub target_mint: Box<Account<'info, Mint>>,
   #[account(mut)]
-  pub base_storage: Box<Account<'info, TokenAccount>>,
+  pub base_storage: Box<InterfaceAccount<'info, TokenAccount>>,
   #[account(mut)]
   /// CHECK: Token account could have been closed. This is fine if royalties are 0
   pub buy_base_royalties: AccountInfo<'info>,
   #[account(mut)]
-  pub destination: Box<Account<'info, TokenAccount>>,
+  pub destination: Box<InterfaceAccount<'info, TokenAccount>>,
   #[account(mut)]
   /// CHECK: Token account could have been closed. This is fine if royalties are 0
   pub buy_target_royalties: AccountInfo<'info>,

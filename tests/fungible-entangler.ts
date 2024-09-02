@@ -1,4 +1,4 @@
-import * as anchor from "@project-serum/anchor";
+import * as anchor from "@coral-xyz/anchor";
 import { Keypair, PublicKey, Transaction } from "@solana/web3.js";
 import { expect, use } from "chai";
 import ChaiAsPromised from "chai-as-promised";
@@ -10,7 +10,7 @@ import {
 } from "../packages/fungible-entangler/src";
 import { TokenUtils } from "./utils/token";
 import { waitForUnixTime } from "./utils/clock";
-import { AnchorProvider } from "@project-serum/anchor";
+import { AnchorProvider } from "@coral-xyz/anchor";
 use(ChaiAsPromised);
 const tB58 = (p: PublicKey | null) => p?.toBase58();
 

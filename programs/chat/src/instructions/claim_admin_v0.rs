@@ -15,7 +15,7 @@ pub struct ClaimAdminV0<'info> {
     constraint = identifier_certificate_mint_account.mint == chat.identifier_certificate_mint.unwrap().key(),
     constraint = identifier_certificate_mint_account.amount > 0
   )]
-  pub identifier_certificate_mint_account: Box<Account<'info, TokenAccount>>,
+  pub identifier_certificate_mint_account: Box<InterfaceAccount<'info, TokenAccount>>,
   pub owner_wallet: Signer<'info>,
 }
 

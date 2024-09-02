@@ -68,7 +68,7 @@ pub struct InitializeTokenBondingV0<'info> {
     constraint = base_storage.close_authority.is_none(),
     constraint = base_storage.owner == token_bonding.key()
   )]
-  pub base_storage: Box<Account<'info, TokenAccount>>,
+  pub base_storage: Box<InterfaceAccount<'info, TokenAccount>>,
 
   /// CHECK: May be uninitialized if there's no royalties of this type
   pub buy_base_royalties: UncheckedAccount<'info>,

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { PublicKey } from "@solana/web3.js";
 import { useSwapDriver } from "../../hooks/useSwapDriver";
 import React, { useMemo, useState } from "react";
@@ -13,6 +14,7 @@ import { useTokenMetadata } from "../../hooks/useTokenMetadata";
 import { useMint } from "../../hooks/useMint";
 import { useCapInfo } from "../../hooks/useCapInfo";
 import { roundToDecimals } from "@strata-foundation/spl-utils";
+
 
 interface IManyToOneSwapProps
   extends Pick<

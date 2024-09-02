@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { NFT_STORAGE_API_KEY } from "../../constants";
 import {
   Alert,
@@ -35,7 +36,6 @@ import {
 } from "@strata-foundation/spl-token-bonding";
 import {
   ITokenBondingSettings,
-  SplTokenCollective,
 } from "@strata-foundation/spl-token-collective";
 import { useRouter } from "next/router";
 import React from "react";
@@ -155,7 +155,7 @@ async function createFullyManaged(
     image: values.image,
     mint: targetMintKeypair.publicKey,
   });
-  const metadata = new DataV2({
+  const metadata = ({
     // Max name len 32
     name: values.name.substring(0, 32),
     symbol: values.symbol.substring(0, 10),
@@ -244,7 +244,7 @@ export const FullyManagedForm: React.FC = () => {
   const mintKey = usePublicKey(mint);
   const { result: collectiveKey } = useAsync(
     async (mint: string | undefined) =>
-      mint ? SplTokenCollective.collectiveKey(new PublicKey(mint)) : undefined,
+      undefined,
     [mint]
   );
   const { info: collective } = useCollective(collectiveKey && collectiveKey[0]);

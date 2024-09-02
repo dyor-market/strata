@@ -1,17 +1,3 @@
-{
-  "include": [],
-  "compilerOptions": {
-    "lib": ["ES2021.String"],
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "esModuleInterop": true,
-    "isolatedModules": true,
-    "noEmitOnError": true,
-    "resolveJsonModule": true,
-    "strict": false,
-    "stripInternal": true,
-    "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true
-  }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:83653f0b7afd3bd267821fa6d070aaedd5115699854e8d65928553c5115d08b8
+size 389

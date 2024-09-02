@@ -57,15 +57,13 @@ async function editMetadata(
   const instructions: TransactionInstruction[] = [];
   const signers: Signer[] = [];
   const metadata = await Metadata.getPDA(mintKey);
-  const data = new DataV2({
+  const data = ({
     // Max name len 32
     name: values.name.substring(0, 32),
     symbol: values.symbol.substring(0, 10),
     uri,
     sellerFeeBasisPoints: 0,
     creators: null,
-    collection: null,
-    uses: null,
   });
 
   if (await tokenMetadataSdk.provider.connection.getAccountInfo(metadata)) {

@@ -1,11 +1,3 @@
-{
-  "extends": "../../tsconfig.root.json",
-  "references": [
-    {
-      "path": "./tsconfig.cjs.json"
-    },
-    {
-      "path": "./tsconfig.esm.json"
-    }
-  ]
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:39ab9f24b784040728cc2ed383215e968ac32b0bd087ca73863df99b2962c64b
+size 164

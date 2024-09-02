@@ -30,7 +30,7 @@ pub struct InitializeProfileV0<'info> {
     constraint = identifier_certificate_mint_account.mint == identifier_certificate_mint.key(),
     constraint = identifier_certificate_mint_account.amount > 0
   )]
-  pub identifier_certificate_mint_account: Box<Account<'info, TokenAccount>>,
+  pub identifier_certificate_mint_account: Box<InterfaceAccount<'info, TokenAccount>>,
   pub owner_wallet: Signer<'info>,
   pub system_program: Program<'info, System>,
 }

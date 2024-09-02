@@ -63,7 +63,7 @@ pub struct BuyWrappedSolV0<'info> {
     mut,
     constraint = destination.mint == wrapped_sol_mint.key()
   )]
-  pub destination: Box<Account<'info, TokenAccount>>,
+  pub destination: Box<InterfaceAccount<'info, TokenAccount>>,
   pub token_program: Program<'info, Token>,
   pub system_program: Program<'info, System>,
 }

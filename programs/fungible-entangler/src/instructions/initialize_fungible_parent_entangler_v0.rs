@@ -43,7 +43,7 @@ pub struct InitializeFungibleParentEntanglerV0<'info> {
     token::mint = parent_mint,
     token::authority = entangler,
   )]
-  pub parent_storage: Box<Account<'info, TokenAccount>>,
+  pub parent_storage: Box<InterfaceAccount<'info, TokenAccount>>,
   #[account( constraint = parent_mint.is_initialized)]
   pub parent_mint: Box<Account<'info, Mint>>,
 

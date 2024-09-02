@@ -23,13 +23,11 @@ export function useTokenMetadata(
 
   const wallet = useWallet();
   const { associatedAccount } = useAssociatedAccount(wallet.publicKey, token);
-  const { info: mintTokenRef, loading: loadingTokenRef } =
-    useMintTokenRef(token);
-
+  
   return {
     ...metaplexData,
-    tokenRef: mintTokenRef,
-    loading: Boolean(token && (loadingTokenRef || metaplexData.loading)),
+    tokenRef: undefined,
+    loading: false,
     account: associatedAccount,
   };
 }

@@ -1,4 +1,4 @@
-import { AnchorProvider } from "@project-serum/anchor";
+import { AnchorProvider } from "@coral-xyz/anchor";
 import { useContext } from "react";
 import { ProviderContext } from "../contexts/providerContext";
 

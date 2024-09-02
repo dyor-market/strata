@@ -33,14 +33,12 @@ export function toMetadata(tokenInfo: TokenInfo | null | undefined): MetadataDat
   return new MetadataData({
     updateAuthority: "",
     mint: tokenInfo.address,
-    data: new DataV2({
+    data: ({
       name: tokenInfo.name,
       symbol: tokenInfo.symbol,
       uri: tokenInfo.logoURI || "",
       creators: null,
       sellerFeeBasisPoints: 0,
-      collection: null,
-      uses: null,
     }),
     primarySaleHappened: false,
     isMutable: false,
@@ -53,14 +51,12 @@ const parser = (key: any, acct: any): MetadataData =>
 export const solMetadata = new MetadataData({
   updateAuthority: "",
   mint: NATIVE_MINT.toBase58(),
-  data: new DataV2({
+  data: ({
     name: "Solana",
     symbol: "SOL",
     uri: "https://strata-token-metadata.s3.us-east-2.amazonaws.com/sol.json",
     creators: null,
     sellerFeeBasisPoints: 0,
-    collection: null,
-    uses: null,
   }),
   primarySaleHappened: false,
   isMutable: false,

@@ -78,15 +78,13 @@ async function createManual(
     image: values.image,
     mint: targetMintKeypair.publicKey,
   });
-  const metadata = new DataV2({
+  const metadata = ({
     // Max name len 32
     name: values.name.substring(0, 32),
     symbol: values.symbol.substring(0, 10),
     uri,
     sellerFeeBasisPoints: 0,
     creators: null,
-    collection: null,
-    uses: null,
   });
   const {
     instructions: metadataInstructions,

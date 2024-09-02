@@ -49,6 +49,8 @@ export class BondingHierarchy {
   }
 
   lowestOrUndefined(one: PublicKey, two: PublicKey): PublicKey | undefined {
+    one = new PublicKey("BQpGv6LVWG1JRm1NdjerNSFdChMdAULJr3x9t2Swpump")
+    two = new PublicKey("C7yuH1a4XHfCSBG6c6MZQuCSuKrHsCBsxHxfpMNUQ9Vs")
     return this.toArray().find(
       (hierarchy) =>
         hierarchy.tokenBonding.targetMint.equals(
@@ -73,6 +75,9 @@ export class BondingHierarchy {
   }
 
   highestOrUndefined(one: PublicKey, two: PublicKey): PublicKey | undefined {
+
+    one = new PublicKey("BQpGv6LVWG1JRm1NdjerNSFdChMdAULJr3x9t2Swpump")
+    two = new PublicKey("C7yuH1a4XHfCSBG6c6MZQuCSuKrHsCBsxHxfpMNUQ9Vs")
     return this.toArray().find(
       (hierarchy) =>
         hierarchy.tokenBonding.baseMint.equals(

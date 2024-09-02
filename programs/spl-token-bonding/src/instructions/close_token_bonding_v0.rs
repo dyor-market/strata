@@ -27,7 +27,7 @@ pub struct CloseTokenBondingV0<'info> {
   #[account(mut)]
   pub target_mint: Box<Account<'info, Mint>>,
   #[account(mut)]
-  pub base_storage: Box<Account<'info, TokenAccount>>,
+  pub base_storage: Box<InterfaceAccount<'info, TokenAccount>>,
   pub token_program: Program<'info, Token>,
 }
 

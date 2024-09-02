@@ -28,10 +28,11 @@ pub struct InitializeSolStorageV0<'info> {
   )]
   pub sol_storage: SystemAccount<'info>,
   #[account(
-    constraint = wrapped_sol_mint.mint_authority.unwrap() == mint_authority.key() &&
-                 wrapped_sol_mint.decimals == spl_token::native_mint::DECIMALS &&
-                 wrapped_sol_mint.freeze_authority.unwrap() == mint_authority.key() &&
-                 wrapped_sol_mint.supply == 0
+    init,
+    payer = payer,
+    mint::decimals = spl_token::native_mint::DECIMALS,
+    mint::authority = mint_authority,
+    mint::freeze_authority = mint_authority
   )]
   pub wrapped_sol_mint: Account<'info, Mint>,
   #[account(

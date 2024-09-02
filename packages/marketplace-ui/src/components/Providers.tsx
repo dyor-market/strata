@@ -4,6 +4,7 @@ import React from "react";
 import toast from "react-hot-toast";
 import { MarketplaceProviders } from "./MarketplaceProviders";
 import { Wallet } from "./Wallet";
+import { UmiProvider } from "../providers/UmiProvider";
 
 export const Providers = ({
   children,
@@ -48,7 +49,10 @@ export const Providers = ({
     <Wallet cluster={cluster}>
       <WalletModalProvider>
         <MarketplaceProviders onError={onError} resetCSS>
+        <UmiProvider>
+
           <TokenListProvider>{children}</TokenListProvider>
+          </UmiProvider>
         </MarketplaceProviders>
       </WalletModalProvider>
     </Wallet>

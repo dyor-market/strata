@@ -1,0 +1,8 @@
+**/*.json filter=lfs diff=lfs merge=lfs -text
+/packages/spl-token-bonding/lib/esm/src/filtered_mainnet.json filter=lfs diff=lfs merge=lfs -text
+/packages/spl-token-bonding/lib/cjs/filtered_mainnet.json filter=lfs diff=lfs merge=lfs -text
+/packages/spl-token-bonding/src/filtered_mainnet.json filter=lfs diff=lfs merge=lfs -text
+/packages/marketplace-ui/src/hooks/filtered_mainnet.json filter=lfs diff=lfs merge=lfs -text
+packages/react/src/hooks/useWalletTokenAccounts.ts filter=lfs diff=lfs merge=lfs -text
+packages/react/src/hooks/useWalletTokens.ts filter=lfs diff=lfs merge=lfs -text
+packages/react/src/hooks/useWalletTokensWithMeta.ts filter=lfs diff=lfs merge=lfs -text
